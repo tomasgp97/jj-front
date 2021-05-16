@@ -1,0 +1,5 @@
+{
+    "testing": true,
+    "version": "0.0.1",
+    "webApi": "http://localhost:3001/"
+}

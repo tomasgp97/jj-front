@@ -1,0 +1,21 @@
+
+// [MODULE_ACTIONS] NEW INTERFACE
+
+// [MODULE_ACTIONS] EXPORT ACTION
+
+// [MODULE_ACTIONS] MODULE RESPONSE ACTIONS
+
+// [MODULE_ACTIONS] MODULE ERROR ACTIONS
+
+const commonActions = {
+    // [MODULE_ACTIONS] DEFINE NEW ACTIONS
+};
+
+// [MODULE_ACTIONS] EXPORT TYPES DECLARATION
+
+
+export interface CommonState {
+
+}
+
+export default commonActions

@@ -3,6 +3,7 @@ import { connectRouter } from 'connected-react-router';
 import { i18nReducer } from "react-redux-i18n";
 import commonReducer from '../common/common.reducer';
 import postsReducer from '../posts/posts.reducer';
+import authReducer from '../auth/auth.reducer';
 // [ROOT REDUCER] IMPORT REDUCER
 
 
@@ -11,6 +12,7 @@ const createRootReducer = (history : any) => combineReducers({
     router: connectRouter(history),
     common: commonReducer,
 	posts: postsReducer,
+	auth: authReducer,
     // [ROOT REDUCER] ADD REDUCER
 });
 

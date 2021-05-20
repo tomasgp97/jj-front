@@ -67,7 +67,9 @@ export const services = {
 };
 
 let interval = undefined;
+export const saveCookieToken = () => {
 
+}
 export const setToken = (respToken: string, refreshToken?: string) => {
     localStorage.setItem('token', 'Token ' + respToken);
     localStorage.setItem('token-ts', Date.now().toString());

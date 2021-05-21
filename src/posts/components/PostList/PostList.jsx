@@ -28,7 +28,22 @@ const PostList = (props) => {
 
 
     useEffect(()=> {
-        setPostList([{text: 'testing'}, {text: 'testing2'}])
+        setPostList([
+            {text: 'testing'},
+            {text: 'testing2'},
+            {text: 'testing'},
+            {text: 'testing2'},{text: 'testing'},
+            {text: 'testing2'},{text: 'testing'},
+            {text: 'testing2'},{text: 'testing'},
+            {text: 'testing2'},{text: 'testing'},
+            {text: 'testing2'},{text: 'testing'},
+            {text: 'testing2'},{text: 'testing'},
+            {text: 'testing2'},{text: 'testing'},
+            {text: 'testing2'},{text: 'testing'},
+            {text: 'testing2'},{text: 'testing'},
+            {text: 'testing2'},{text: 'testing'},
+            {text: 'testing2'},
+        ])
     }, [])
 
     useEffect(()=> {}, [getPostsStatus]);
@@ -39,7 +54,7 @@ const PostList = (props) => {
         <div className={'post-list'}>
             <h2>Posts</h2>
             <div className={'creation-input'}>
-                <input type="text"/>
+                <textarea autoCapitalize={true} />
             </div>
 
             <div className={'body'}>

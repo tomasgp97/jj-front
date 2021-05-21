@@ -9,11 +9,13 @@ import './PostCard.scss';
  * @return { * } component
  */
 const PostCard = (props) => {
-    const {} = props;
+    const {
+        text
+    } = props;
 
     return (
         <div>
-            <p>{'This is PostCard'}</p>
+            <p>{text || ''}</p>
         </div>
     );
 };

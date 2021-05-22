@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import './Login.scss';
 import authActions from "../../auth.actions";
@@ -11,19 +11,35 @@ import {Button, TextField} from "@material-ui/core";
  */
 const Login = (props) => {
     const {
-        postCredentialsStatus
+        postCredentialsStatus,
+        postCredentials
     } = props;
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
     useEffect(()=> {
 
     } , [postCredentialsStatus])
+
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value);
+    }
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
+    }
+
+    const handleSendData = () => {
+        postCredentials(username, password)
+    }
+
     return (
         <div className={'login'}>
             <h2>Login</h2>
             <div className={'wrapper'}>
-                <TextField id="outlined-basic" label="username" variant="outlined" />
-                <TextField id="outlined-basic" label="password" variant="outlined" />
-                <Button style={{marginTop: '15px', maxWidth:'100px'}} variant="contained" color="primary">
+                <TextField value={username} onChange={handleUsernameChange} id="outlined-basic" label="username" variant="outlined" />
+                <TextField onChange={handlePasswordChange} label="password" variant="outlined" />
+                <Button disabled={!username || !password} onClick={handleSendData} style={{marginTop: '15px', maxWidth:'100px'}} variant="contained" color="primary">
                     Login
                 </Button>
             </div>

@@ -1,0 +1,16 @@
+.login{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 15rem;
+  .wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+
+    .MuiTextField-root{
+      margin-top: 15px;
+    }
+  }
+}

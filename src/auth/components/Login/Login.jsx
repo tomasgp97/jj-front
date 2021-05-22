@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import './Login.scss';
 import authActions from "../../auth.actions";
+import {Button, TextField} from "@material-ui/core";
 
 /**
  * @description
@@ -17,8 +18,15 @@ const Login = (props) => {
 
     } , [postCredentialsStatus])
     return (
-        <div>
-            <p>{'This is Login'}</p>
+        <div className={'login'}>
+            <h2>Login</h2>
+            <div className={'wrapper'}>
+                <TextField id="outlined-basic" label="username" variant="outlined" />
+                <TextField id="outlined-basic" label="password" variant="outlined" />
+                <Button style={{marginTop: '15px', maxWidth:'100px'}} variant="contained" color="primary">
+                    Login
+                </Button>
+            </div>
         </div>
     );
 };

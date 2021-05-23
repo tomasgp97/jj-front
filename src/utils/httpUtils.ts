@@ -14,7 +14,9 @@ interface Config {
     data?: {}
 }
 
-const httpClient = axios.create();
+const httpClient = axios.create({
+    withCredentials: true
+});
 httpClient.defaults.timeout = 1200000;
 
 const appSettings = configureSettings;

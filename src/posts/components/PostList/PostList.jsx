@@ -24,6 +24,10 @@ const PostList = (props) => {
         post
     } = props;
 
+    //  Crear post
+    //  Likear un post
+    //  eliminar mis posts
+
     const [postList, setPostList] = useState([]);
 
     const previousStatus = usePrevious({getPostsStatus, newPostStatus});

@@ -4,6 +4,8 @@ import './PostList.scss';
 import postsActions from "../../posts.actions";
 import PostCard from "../PostCard/PostCard";
 import {usePrevious} from "../../../utils/hooksRef";
+import {Button, TextField} from "@material-ui/core";
+
 
 /**
  * @description
@@ -54,7 +56,15 @@ const PostList = (props) => {
         <div className={'post-list'}>
             <h2>Posts</h2>
             <div className={'creation-input'}>
-                <textarea autoCapitalize={true} />
+                
+            <TextField
+                id="outlined-multiline-static"
+                label="Multiline"
+                multiline
+                placeholder="Write a comment"
+                rows={5}
+                variant="outlined"/>
+
             </div>
 
             <div className={'body'}>

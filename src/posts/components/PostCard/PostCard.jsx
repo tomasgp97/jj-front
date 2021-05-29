@@ -41,14 +41,18 @@ const ownProfileCards = (text) => {
     </div>)
 }
 
-const dashboardCardsComp = (text) => 
-/* solo puede elimiar post propios*/ 
-(
-    <div className={'post-card'}>
-        <Avatar>H</Avatar>
-        <p>{text || ''}</p>
-    </div>
-)
+const dashboardCardsComp = (text) => {
+
+    const handleAvatarclick = () => {
+        // todo go to profile
+    }
+    return(
+        <div className={'post-card'}>
+            <Avatar className={'avatar'} onClick={handleAvatarclick}>H</Avatar>
+            <p>{text || ''}</p>
+        </div>
+        )
+}
 
 const mapStateToProps = (state) => ({});
 

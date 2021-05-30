@@ -4,6 +4,8 @@ import { i18nReducer } from "react-redux-i18n";
 import commonReducer from '../common/common.reducer';
 import postsReducer from '../posts/posts.reducer';
 import authReducer from '../auth/auth.reducer';
+import baseReducer from '../base/base.reducer';
+import userReducer from '../user/user.reducer';
 // [ROOT REDUCER] IMPORT REDUCER
 
 
@@ -13,6 +15,8 @@ const createRootReducer = (history : any) => combineReducers({
     common: commonReducer,
 	posts: postsReducer,
 	auth: authReducer,
+	base: baseReducer,
+	user: userReducer,
     // [ROOT REDUCER] ADD REDUCER
 });
 

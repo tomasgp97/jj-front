@@ -9,6 +9,8 @@ import rootReducer from "./rootReducer";
 import commonMiddleware from '../common/common.middleware';
 import postsMiddleware from '../posts/posts.middleware';
 import authMiddleware from '../auth/auth.middleware';
+import baseMiddleware from '../base/base.middleware';
+import userMiddleware from '../user/user.middleware';
 // [CONFIGURE STORE] IMPORT MIDDLEWARE
 
 const persistConfig = {
@@ -31,6 +33,8 @@ const store = process.env.NODE_ENV === 'production' ? createStore(
         commonMiddleware,
 		postsMiddleware,
 		authMiddleware,
+		baseMiddleware,
+		userMiddleware,
         // [CONFIGURE STORE] ADD MIDDLEWARE PROD
     ))
 ) : createStore(
@@ -43,6 +47,8 @@ const store = process.env.NODE_ENV === 'production' ? createStore(
         commonMiddleware,
 		postsMiddleware,
 		authMiddleware,
+		baseMiddleware,
+		userMiddleware,
         // [CONFIGURE STORE] ADD MIDDLEWARE DEV
     ))
 );

@@ -1,0 +1,27 @@
+.sign-up{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+
+  .body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10rem;
+    width: 400px;
+
+    .form-field{
+      margin-top: 20px;
+      width: 100%;
+
+      .MuiFormControl-root{
+        width: 100%;
+      }
+      .MuiButtonBase-root{
+        max-width: 200px;
+        margin-top: 15px;
+      }
+    }
+  }
+}

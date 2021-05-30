@@ -14,7 +14,9 @@ interface Config {
     data?: {}
 }
 
-const httpClient = axios.create();
+const httpClient = axios.create({
+    withCredentials: true
+});
 httpClient.defaults.timeout = 1200000;
 
 const appSettings = configureSettings;
@@ -26,6 +28,33 @@ let loggedOutUser = false;
 
 token = localStorage.getItem('token');
 
+// httpClient.interceptors.response.use(
+//     (response) => {
+//         return response;
+//     },
+//     function (error) {
+//         const originalRequest = error.config;
+//         let refreshToken = getRefreshToken();
+//         if (
+//             refreshToken &&
+//             error.response.status === 401 &&
+//             !originalRequest._retry
+//         ) {
+//             originalRequest._retry = true;
+//             return axios
+//                 .post(`${webApi}auth/login/refresh/`, { refresh: refreshToken })
+//                 .then((res) => {
+//                     if (res.status === 200) {
+//                         _saveToken(res.data.access);
+//                         originalRequest.headers['Authorization'] = 'Bearer ' + res.data.access;
+//                         return httpClient(originalRequest);
+//                     }
+//                 });
+//         }
+//         return Promise.reject(error);
+//     }
+// );
+
 const _request = (url: string , method : Method , data : object, config? : Config) => {
     const headers = {...config?.headers, Authorization: config?.token || token};
     if (config?.noAuth || !token) delete headers.Authorization;
@@ -34,12 +63,12 @@ const _request = (url: string , method : Method , data : object, config? : Confi
         if(res.status === 200 || res.status === 201 || res.status === 204) return res.data;
         else throw (res.data);
     }).catch((errorResponse : AxiosError) => {
-        // logMessage(errorResponse.response.data + ' - ' + errorResponse.response.status, ERROR);
+        // probablemente aca lo tenga que mandar al login o algo asi.
         if (errorResponse?.response?.status === 401) {
-            if (!loggedOutUser) {
-                // dispatchRef(actions.session.logout());
-                loggedOutUser = true
-            }
+            // if (accessToken){
+            //     cleanAll();
+            //     window.location.reload();
+            // }
 
         }
         throw (errorResponse.response || {status: 500})

@@ -1,0 +1,22 @@
+.profile-post-card{
+    display: flex;
+    align-items: center;
+    width: calc(100% - 20px);
+    padding: 5px 10px;
+    justify-content: space-between;
+    .MuiChip-label{
+        display: flex;
+    }
+}
+.post-card{
+    display: flex;
+    align-items: center;
+    width: calc(100% - 20px);
+    padding: 5px 10px;
+    p {
+        margin-left: 20px;
+    }
+    .avatar{
+        cursor: pointer;
+    }
+}

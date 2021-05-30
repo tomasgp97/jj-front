@@ -3,6 +3,8 @@ import {ResponseAction, Rehydrate, ResponseErrorAction, LocationChange} from "..
 
 import postsActions from '../posts/posts.actions';
 import authActions from '../auth/auth.actions';
+import baseActions from '../base/base.actions';
+import userActions from '../user/user.actions';
 // [GLOBAL ACTIONS] IMPORT MODULE ACTIONS
 import {AuthActionTypes} from '../auth/auth.actions';
 import {PostsActionTypes} from '../posts/posts.actions';
@@ -12,6 +14,8 @@ export default {
     common: commonActions,
 	posts: postsActions,
 	auth: authActions,
+	base: baseActions,
+	user: userActions,
     // [GLOBAL ACTIONS] EXPORT ACTIONS
 };
 

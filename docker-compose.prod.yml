@@ -1,7 +1,7 @@
 
 services:
 
-  sample-prod:
+  jj-front-prod:
     container_name: jj-front-prod
     build:
       context: .

@@ -1,6 +1,6 @@
 services:
 
-  sample:
+  jj-front-dev:
     container_name: jj-front-dev
     build:
       context: .

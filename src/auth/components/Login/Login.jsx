@@ -19,7 +19,9 @@ const Login = (props) => {
     const [password, setPassword] = useState('');
 
     useEffect(()=> {
+        if(postCredentialsStatus?.success){
 
+        }
     } , [postCredentialsStatus])
 
     const handleUsernameChange = (event) => {

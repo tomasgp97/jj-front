@@ -21,7 +21,6 @@ export default {
 
 export type ActionTypes = LocationChange
     | Rehydrate
-	| AuthActionTypes
 	| PostsActionTypes
 	| AuthActionTypes
     // [GLOBAL ACTIONS] EXPORT ACTION TYPE

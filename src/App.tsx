@@ -4,6 +4,7 @@ import PostList from "./posts/components/PostList/PostList";
 import Login from "./auth/components/Login/Login";
 import SignUp from "./auth/components/SignUp/SignUp";
 import Profile from "./user/components/Profile/Profile";
+import {PrivateRoute} from "./auth/PrivateRoute";
 
 function App() {
     return (
@@ -12,7 +13,7 @@ function App() {
                 <Route path={'/login'} render={(): JSX.Element => <Login/>}/>
                 <Route path={'/signUp'} render={(): JSX.Element => <SignUp/>}/>
                 <Route path={'/profile'} render={(): JSX.Element => <Profile/>}/>
-                <Route path={'/'} render={(): JSX.Element => <PostList/>}/>
+                <PrivateRoute path={'/list'} component={PostList}/>
             </Switch>
         </div>
     );

@@ -4,3 +4,9 @@ export const REQUEST_STATUS = {
     SUCCESS: {loading: false, success: true, error: false},
     ERROR: {loading: false, success: false, error: true},
 };
+export const PATH = {
+    SIGN_IN:'/login',
+    SIGN_UP:'/signup',
+    RECOVERY_PASSWORD:'/recovery',
+    ACTIVITIES:'/home',
+}

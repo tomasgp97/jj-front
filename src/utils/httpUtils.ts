@@ -15,65 +15,41 @@ interface Config {
 }
 
 const httpClient = axios.create({
-    withCredentials: true
 });
-httpClient.defaults.timeout = 1200000;
 
 const appSettings = configureSettings;
-export const webApi = appSettings.webApi;
+export const webApi = appSettings.baseUrl;
 
-export let token : string | null = '';
-// export let dispatchRef;
-let loggedOutUser = false;
+httpClient.defaults.timeout = 30000;
+// httpClient.defaults.xsrfHeaderName = "X-CSRFToken"
+// httpClient.defaults.xsrfCookieName = 'csrftoken'
+httpClient.defaults.withCredentials = true
 
-token = localStorage.getItem('token');
-
-// httpClient.interceptors.response.use(
-//     (response) => {
-//         return response;
-//     },
-//     function (error) {
-//         const originalRequest = error.config;
-//         let refreshToken = getRefreshToken();
-//         if (
-//             refreshToken &&
-//             error.response.status === 401 &&
-//             !originalRequest._retry
-//         ) {
-//             originalRequest._retry = true;
-//             return axios
-//                 .post(`${webApi}auth/login/refresh/`, { refresh: refreshToken })
-//                 .then((res) => {
-//                     if (res.status === 200) {
-//                         _saveToken(res.data.access);
-//                         originalRequest.headers['Authorization'] = 'Bearer ' + res.data.access;
-//                         return httpClient(originalRequest);
-//                     }
-//                 });
-//         }
-//         return Promise.reject(error);
-//     }
-// );
 
 const _request = (url: string , method : Method , data : object, config? : Config) => {
-    const headers = {...config?.headers, Authorization: config?.token || token};
-    if (config?.noAuth || !token) delete headers.Authorization;
-    let configObject : AxiosRequestConfig = {url: (config?.baseUrl || appSettings.baseUrl) + url, method, data, headers, ...config?.options};
-    return httpClient(configObject).then((res : AxiosResponse) => {
+    return httpClient({url, method, data}).then((res) => {
         if(res.status === 200 || res.status === 201 || res.status === 204) return res.data;
         else throw (res.data);
-    }).catch((errorResponse : AxiosError) => {
-        // probablemente aca lo tenga que mandar al login o algo asi.
-        if (errorResponse?.response?.status === 401) {
-            // if (accessToken){
-            //     cleanAll();
-            //     window.location.reload();
-            // }
+    }).catch(errorResponse => {
 
+        if (errorResponse.response.status === 401 && errorResponse.response.data) {
+            // _logout();
+            window.location.href = '/login';
         }
         throw (errorResponse.response || {status: 500})
     })
 };
+
+export const _logout = () => {
+    localStorage["logout"] = true;
+};
+
+export const _getLogout = () => {
+    return (localStorage["logout"] && JSON.parse(localStorage["loginOut"])) || false;
+}
+export const _cleanLogoutToken = () => {
+    return (localStorage["logout"] && localStorage.removeItem("logout"));
+}
 
 export const get = (url: string, config?: Config) => _request(url, "GET", {}, config);
 
@@ -99,20 +75,3 @@ let interval = undefined;
 export const saveCookieToken = () => {
 
 }
-export const setToken = (respToken: string, refreshToken?: string) => {
-    localStorage.setItem('token', 'Token ' + respToken);
-    localStorage.setItem('token-ts', Date.now().toString());
-    token = 'Token ' + respToken;
-};
-
-export const setRefreshToken = (respToken: string) => {
-    localStorage.setItem('refresh-token', respToken);
-};
-
-export const removeToken = () => {
-    console.log("*** Removing token ***");
-    localStorage.removeItem('token');
-    localStorage.removeItem('token-ts');
-    localStorage.removeItem('refresh-token');
-    token = '';
-};

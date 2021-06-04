@@ -33,8 +33,8 @@ const _request = (url: string , method : Method , data : object, config? : Confi
     }).catch(errorResponse => {
 
         if (errorResponse.response.status === 401 && errorResponse.response.data) {
-            // _logout();
-            window.location.href = '/login';
+            // // _logout();
+            // window.location.href = '/login';
         }
         throw (errorResponse.response || {status: 500})
     })

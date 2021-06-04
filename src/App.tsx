@@ -12,8 +12,9 @@ function App() {
             <Switch>
                 <Route path={'/login'} render={(): JSX.Element => <Login/>}/>
                 <Route path={'/signUp'} render={(): JSX.Element => <SignUp/>}/>
-                <Route path={'/profile'} render={(): JSX.Element => <Profile/>}/>
+                <PrivateRoute path={'/profile'} component={Profile}/>
                 <PrivateRoute path={'/list'} component={PostList}/>
+                <Route path={'/'} render={(): JSX.Element => <Login/>}/>
             </Switch>
         </div>
     );

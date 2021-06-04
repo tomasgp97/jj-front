@@ -8,6 +8,12 @@ module.exports = function (app) {
         })
     );
     app.use(
+        "/api/users/register",
+        createProxyMiddleware({
+            target: "http://localhost:8080/",
+        })
+    );
+    app.use(
         "/api/users",
         createProxyMiddleware({
             target: "http://localhost:8080/",

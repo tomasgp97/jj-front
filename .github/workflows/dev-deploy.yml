@@ -15,25 +15,25 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build_and_push_to_registry:
-    name: Build and push Development Docker image to GitHub Packages
+  push_to_registry:
+    name: Push Docker image to GitHub Packages
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      - name: Login to GitHub Packages
+      - name: Log in to GitHub Docker Registry
         uses: docker/login-action@v1
         with:
           registry: docker.pkg.github.com
-          username: ${{ github.repository_owner }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Lowercase repository name
-        run: |
-          echo "REPO=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
-      - name: Build and push to GitHub Packages
+      - name: Build container image
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: ./Dockerfile.prod
           push: true
-          tags: docker.pkg.github.com/${{ `env`.REPO }}/${{ env.IMAGE_NAME }}:latest
+          tags: |
+            docker.pkg.github.com/${{ github.repository }}/octo-image:${{ github.sha }}
+            docker.pkg.github.com/${{ github.repository }}/octo-image:${{ github.ref }}

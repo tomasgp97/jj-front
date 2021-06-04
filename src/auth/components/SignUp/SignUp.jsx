@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import './SignUp.scss';
 import {Button, TextField} from "@material-ui/core";
+import authActions from "../../auth.actions";
 
 
 /**
@@ -11,11 +12,14 @@ import {Button, TextField} from "@material-ui/core";
  */
 const SignUp = (props) => {
     const {
-
+        register,
+        signUpStatus
     } = props;
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -26,23 +30,33 @@ const SignUp = (props) => {
     const handleEmailInput = (event) => {
         setEmail(event.target.value);
     }
+
+    const handleFirstName = (event) => {
+        setFirstName(event.target.value);
+    }
+    const handleLastName = (event) => {
+        setLastName(event.target.value);
+    }
+
     const handlePasswordInput = (event) => {
         setPassword(event.target.value);
     }
-
     const handleConfirmPasswordInput = (event) => {
         setConfirmPassword(event.target.value);
     }
 
+    useEffect(()=> {
+
+        if (signUpStatus?.success){
+            console.log(signUpStatus);
+        }
+    } , [signUpStatus])
     const handleSendData = () => {
         if (password !== confirmPassword)
             return
 
-        const data = {
-            username,
-            email,
-            password
-        }
+
+        register(username, password, firstName, lastName, email);
     }
 
     return (
@@ -50,16 +64,22 @@ const SignUp = (props) => {
             <div className={'body'}>
                 <h2>Register</h2>
                 <div className={'form-field'}>
-                    <TextField value={username} onChange={handleUsernameInput} label="username" variant="outlined" />
+                    <TextField  value={username} onChange={handleUsernameInput} label="username" variant="outlined" />
                 </div>
                 <div className={'form-field'}>
-                    <TextField value={email} label="email" variant="outlined" />
+                    <TextField value={email} onChange={handleEmailInput} type={'email'} label="email" variant="outlined" />
                 </div>
                 <div className={'form-field'}>
-                    <TextField value={password} label="password" variant="outlined" />
+                    <TextField value={firstName} onChange={handleFirstName} label="First name" variant="outlined" />
                 </div>
                 <div className={'form-field'}>
-                    <TextField value={confirmPassword} label="repeat password" variant="outlined" />
+                    <TextField value={lastName} onChange={handleLastName} label="Last Name" variant="outlined" />
+                </div>
+                <div className={'form-field'}>
+                    <TextField value={password} type="password" onChange={handlePasswordInput} label="password" variant="outlined" />
+                </div>
+                <div className={'form-field'}>
+                    <TextField value={confirmPassword} type="password" onChange={handleConfirmPasswordInput} label="repeat password" variant="outlined" />
                 </div>
                 <div className={'form-field'}>
                     <Button onClick={handleSendData} disabled={!username || !email || !password || !confirmPassword } variant="contained" color="primary">
@@ -72,11 +92,13 @@ const SignUp = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-
+    signUpStatus: state.auth.signUpStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+    register: (username, password, firstName, lastName, email) =>{
+        dispatch(authActions.signUp(username, password, firstName, lastName, email))
+    }
 });
 
 SignUp.propTypes = {

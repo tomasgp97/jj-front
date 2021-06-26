@@ -69,6 +69,11 @@ const PostList = (props) => {
                 rows={5}
                 variant="outlined"/>
 
+                <div className={'send-button'}>
+                    <Button variant="contained" color="primary">
+                        Post
+                    </Button>
+                </div>
             </div>
 
             <div className={'body'}>

@@ -2,12 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import './Profile.scss';
 import PostCard from "../../../posts/components/PostCard/PostCard";
-import {Edit, GroupAdd} from "@material-ui/icons";
+import {Edit, GroupAdd, RemoveCircle} from "@material-ui/icons";
 import {IconButton} from "@material-ui/core";
 import {useHistory, useLocation} from 'react-router-dom';
 import {PATH} from "../../../utils/consts";
 import postsActions from "../../../posts/posts.actions";
 import {usePrevious} from "../../../utils/hooksRef";
+import userActions from "../../user.actions";
 
 
 /**
@@ -23,7 +24,11 @@ const Profile = (props) => {
 
         deletePostStatus,
         userData,
-        followUser
+
+        followUser,
+        getFollowedUsers,
+        followedUsers,
+        getFollowedUsersStatus
     } = props;
 
 
@@ -54,7 +59,13 @@ const Profile = (props) => {
                              loggedInUserData={userData}
                              userData={postList}
                              getPosts={getPosts}
+
                              followUser={followUser}
+
+                             getFollowedUsers={getFollowedUsers}
+                             getFollowedUsersStatus={getFollowedUsersStatus}
+                             followedUsers={followedUsers}
+
                              deletePostStatus={deletePostStatus}/>
         </div>
     );
@@ -67,18 +78,30 @@ const UserProfile = (props) => {
         deletePostStatus,
         getPosts,
         loggedInUserData,
-        followUser
+        followUser,
+
+        getFollowedUsersStatus,
+        followedUsers,
+        getFollowedUsers
     } = props
     const history = useHistory();
 
-    const previousStatus = usePrevious({deletePostStatus});
+    const previousStatus = usePrevious({deletePostStatus, getFollowedUsersStatus});
     const [isFollowingThisUser, setIsFollowingThisUser] = useState(false);
 
     useEffect(()=> {
         if(personId){
-
+            getFollowedUsers(loggedInUserData.id)
         }
     }, [])
+
+    useEffect(() => {
+        if (previousStatus && previousStatus.getFollowedUsersStatus !== getFollowedUsersStatus && getFollowedUsersStatus && getFollowedUsersStatus.success) {
+            const followedUsersListId = followedUsers.map(x=> x.id);
+            const parsedInt = parseInt(personId);
+            setIsFollowingThisUser(followedUsersListId.some(user=> user === parsedInt));
+        }
+    }, [getFollowedUsersStatus]);
 
     useEffect(() => {
         if (previousStatus && previousStatus.deletePostStatus !== deletePostStatus && deletePostStatus && deletePostStatus.success) {
@@ -86,9 +109,11 @@ const UserProfile = (props) => {
         }
     }, [deletePostStatus]);
 
-
     const handleFollow = () => {
-        console.log(loggedInUserData.id, personId)
+        followUser(loggedInUserData.id, parseInt(personId))
+    }
+
+    const handleUnfollow = () => {
         followUser(loggedInUserData.id, parseInt(personId))
     }
 
@@ -105,10 +130,16 @@ const UserProfile = (props) => {
                     <h2>
                         Username: {loggedInUserData.username}
                         {personId ?
-                            <IconButton color="primary" aria-label="upload picture" component="span"
-                                        onClick={handleFollow}>
-                                <GroupAdd/>
-                            </IconButton>
+                             isFollowingThisUser ?
+                                <IconButton color="primary" aria-label="upload picture" component="span"
+                                            onClick={handleUnfollow}>
+                                    <RemoveCircle/>
+                                </IconButton>
+                                :
+                                <IconButton color="primary" aria-label="upload picture" component="span"
+                                            onClick={handleFollow}>
+                                    <GroupAdd/>
+                                </IconButton>
                             :
                             <IconButton color="primary" aria-label="upload picture" component="span"
                                         onClick={_ => history.push(PATH.EDIT_PROFILE)}>
@@ -138,6 +169,8 @@ const UserProfile = (props) => {
 const mapStateToProps = (state) => (
 {
     getPostsStatus: state.posts.getPostsStatus,
+    getFollowedUsersStatus: state.user.getFollowedUsersStatus,
+    followedUsers: state.user.followedUsers,
     posts: state.posts.posts,
     deletePostStatus: state.posts.deletePostStatus,
     userData: state.auth.userData
@@ -151,6 +184,9 @@ const mapDispatchToProps = (dispatch) => (
     },
     followUser: (userId, followingId) => {
         dispatch(postsActions.followUser(userId, followingId))
+    },
+    getFollowedUsers: (id) => {
+        dispatch(userActions.getFollowedUsers(id))
     },
 }
 );

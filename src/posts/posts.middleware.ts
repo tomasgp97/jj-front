@@ -16,7 +16,7 @@ const postsMiddleware: Middleware = api => (next) => (action) => {
 				.catch((error: any) => api.dispatch(postsActions.getPostsError(error)));
 			break;
 		case NEW_POST:
-			services.newPost(action.text)
+			services.newPost(action.text, action.userId)
 				.then((response: any) => api.dispatch(postsActions.newPostSuccess(response)))
 				.catch((error: any) => api.dispatch(postsActions.newPostError(error)));
 			break;

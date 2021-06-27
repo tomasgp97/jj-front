@@ -21,7 +21,8 @@ const Profile = (props) => {
         getPostsStatus,
         posts,
 
-        deletePostStatus
+        deletePostStatus,
+        userData
     } = props;
 
 
@@ -31,7 +32,7 @@ const Profile = (props) => {
     const [postList, setPostList] = useState([]);
 
     useEffect(()=> {
-        getPosts(1006);
+        getPosts(userData.id);
     }, [])
 
     useEffect(()=> {
@@ -44,7 +45,7 @@ const Profile = (props) => {
     return (
         // y el perfil que estoy viendo es solo texto y un boton de seguir. Entrare con algo como un profile/{id}
         <div style={{width: '100%', height: '100%'}}>
-            <UserProfile userData={postList} getPosts={getPosts} deletePostStatus={deletePostStatus}/>
+            <UserProfile loggedInUserData={userData} userData={postList} getPosts={getPosts} deletePostStatus={deletePostStatus}/>
         </div>
     );
 };
@@ -53,6 +54,7 @@ const UserProfile = (props) => {
         userData,
         deletePostStatus,
         getPosts,
+        loggedInUserData,
     } = props
     const history = useHistory();
 
@@ -60,22 +62,22 @@ const UserProfile = (props) => {
 
     useEffect(() => {
         if (previousStatus && previousStatus.deletePostStatus !== deletePostStatus && deletePostStatus && deletePostStatus.success) {
-            getPosts(1006)
+            getPosts(loggedInUserData.id)
         }
     }, [deletePostStatus]);
 
     return (
         <div className={'user-profile'}>
             <div className={'profile-column'}>
-                <div className={'profile-img'}>img</div>
+                <div className={'profile-img'}>PROFILE:</div>
                 <div className={'additional-info'}>
-                    email...
+                    {loggedInUserData.email}
                 </div>
             </div>
             <div className={'profile-data-column'}>
                 <div className={'title'}>
                     <h2>
-                        Nombre
+                        Username: {loggedInUserData.username}
                         <IconButton color="primary" aria-label="upload picture" component="span" onClick={_ => history.push(PATH.EDIT_PROFILE)}>
                             <Edit/>
                         </IconButton>
@@ -101,6 +103,8 @@ const mapStateToProps = (state) => ({
     getPostsStatus: state.posts.getPostsStatus,
     posts: state.posts.posts,
     deletePostStatus: state.posts.deletePostStatus,
+    userData: state.auth.userData
+
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -51,7 +51,7 @@ const Login = (props) => {
 
 const mapStateToProps = (state) => ({
     postCredentialsStatus: state.auth.postCredentialsStatus,
-    credentialsResponse: state.auth.credentials_response
+    userData: state.auth.userData
 });
 
 const mapDispatchToProps = (dispatch) => ({

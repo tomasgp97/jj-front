@@ -49,7 +49,7 @@ const postsActions = {
 	getPostsSuccess: (response: any): PostsResponseAction => ({type: GET_POSTS_SUCCESS, response}),
 	getPostsError: (error: any): PostsResponseErrorAction => ({type: GET_POSTS_ERROR, error}),
 
-	newPost: (text: string) => ({type: NEW_POST, text}),
+	newPost: (text: string, userId: number) => ({type: NEW_POST, text, userId}),
 	newPostSuccess: (response: any): PostsResponseAction => ({type: NEW_POST_SUCCESS, response}),
 	newPostError: (error: any): PostsResponseErrorAction => ({type: NEW_POST_ERROR, error}),
 

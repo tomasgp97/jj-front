@@ -21,7 +21,9 @@ const PostList = (props) => {
 
         newPost,
         newPostStatus,
-        post
+        post,
+
+        userData
     } = props;
 
     //  Crear post
@@ -36,22 +38,7 @@ const PostList = (props) => {
 
 
     useEffect(()=> {
-        setPostList([
-            {text: 'testing'},
-            {text: 'testing2'},
-            {text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},
-        ])
+        setPostList([])
     }, [])
 
     const handleWriteMassage = (event) => {
@@ -59,11 +46,11 @@ const PostList = (props) => {
     }
 
     const handleCreatePost = () => {
-        newPost(postMessage)
+        newPost(postMessage, userData.id)
     }
 
     useEffect(()=> {
-        getPosts(1006);
+        getPosts(userData.id);
     }, [])
 
     useEffect(()=> {
@@ -75,7 +62,7 @@ const PostList = (props) => {
     useEffect(()=> {
         if (previousStatus && previousStatus.newPostStatus !== newPostStatus && newPostStatus && newPostStatus.success){
             setPostMessage('');
-            getPosts(1006)
+            getPosts(userData.id)
         }
     }, [newPostStatus]);
 
@@ -116,15 +103,16 @@ const mapStateToProps = (state) => ({
     getPostsStatus: state.posts.getPostsStatus,
     newPostStatus: state.posts.newPostStatus,
     posts: state.posts.posts,
-    newPost: state.posts.post
+    newPost: state.posts.post,
+    userData: state.auth.userData
 });
 
 const mapDispatchToProps = (dispatch) => ({
     getPosts: (id) => {
         dispatch(postsActions.getPosts(id))
     },
-    newPost: (text) => {
-        dispatch(postsActions.newPost(text))
+    newPost: (text, userId) => {
+        dispatch(postsActions.newPost(text, userId))
     }
 });
 

@@ -21,7 +21,7 @@ const initialState = {
 const authReducer = (state = initialState, action: ActionTypes): AuthState => {
     switch (action.type) {
 		case POST_CREDENTIALS: return {...state, postCredentialsStatus: REQUEST_STATUS.LOADING};
-		case POST_CREDENTIALS_SUCCESS: return {...state, isLoggedIn: true, postCredentialsStatus: REQUEST_STATUS.SUCCESS, credentials_response: action.response};
+		case POST_CREDENTIALS_SUCCESS: return {...state, isLoggedIn: true, postCredentialsStatus: REQUEST_STATUS.SUCCESS, userData: action.response};
 		case POST_CREDENTIALS_ERROR: return {...state, postCredentialsStatus: REQUEST_STATUS.ERROR};
 
 		case SIGN_UP: return {...state, signUpStatus: REQUEST_STATUS.LOADING};

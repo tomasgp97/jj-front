@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import './EditProfile.scss';
 import {Button, TextField} from "@material-ui/core";
 import authActions from "../../../auth/auth.actions";
+import {usePrevious} from "../../../utils/hooksRef";
+import userActions from "../../user.actions";
 
 /**
  * @description
@@ -11,15 +13,29 @@ import authActions from "../../../auth/auth.actions";
  */
 const EditProfile = (props) => {
     const {
-        signUpStatus
+        signUpStatus,
+        userData,
+
+        updateUser,
+        updateUserStatus,
+
+        getMe
     } = props;
 
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [username, setUsername] = useState(userData.username || '');
+    const [email, setEmail] = useState(userData.email || '');
+    const [firstName, setFirstName] = useState(userData.firstName || '');
+    const [lastName, setLastName] = useState(userData.lastName || '');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+
+    const previousStatus = usePrevious({updateUserStatus});
+
+    useEffect(()=> {
+        if (previousStatus && previousStatus.getPostsStatus !== updateUserStatus && updateUserStatus && updateUserStatus.success){
+            getMe();
+        }
+    }, [updateUserStatus])
 
     const handleUsernameInput = (event) => {
         setUsername(event.target.value);
@@ -43,18 +59,12 @@ const EditProfile = (props) => {
         setConfirmPassword(event.target.value);
     }
 
-    useEffect(()=> {
-        // TODO hacer el get al /me
-        // if (signUpStatus?.success){
-        //     console.log(signUpStatus);
-        // }
-    } , [signUpStatus])
     const handleSendData = () => {
-        // if (password !== confirmPassword)
-        //     return
-        //
-        //
-        // register(username, password, firstName, lastName, email);
+        if (password !== confirmPassword)
+            return
+
+
+        updateUser(userData.id, username, password, firstName, lastName, email);
     }
 
     return (
@@ -90,12 +100,16 @@ const EditProfile = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-    signUpStatus: state.auth.signUpStatus
+    userData: state.auth.userData,
+    updateUserStatus: state.user.updateUserStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    register: (username, password, firstName, lastName, email) =>{
-        dispatch(authActions.signUp(username, password, firstName, lastName, email))
+    updateUser: (id, username, password, firstName, lastName, email) =>{
+        dispatch(userActions.updateUser(id, username, password, firstName, lastName, email))
+    },
+    getMe: () =>{
+        dispatch(authActions.getMe())
     }
 });
 

@@ -11,6 +11,10 @@ import userActions, {
 	UNFOLLOW_SUCCESS,
 	UNFOLLOW_ERROR,
 
+	UPDATE_USER,
+	UPDATE_USER_SUCCESS,
+	UPDATE_USER_ERROR,
+
     // [MODULE REDUCER] IMPORT ACTIONS
 } from './user.actions';
 import {ActionTypes} from "../redux/actions";
@@ -34,6 +38,10 @@ const userReducer = (state = initialState, action: ActionTypes): UserState => {
 		case UNFOLLOW: return {...state, unfollowStatus: REQUEST_STATUS.LOADING};
 		case UNFOLLOW_SUCCESS: return {...state, unfollowStatus: REQUEST_STATUS.SUCCESS};
 		case UNFOLLOW_ERROR: return {...state, unfollowStatus: REQUEST_STATUS.ERROR};
+
+		case UPDATE_USER: return {...state, updateUserStatus: REQUEST_STATUS.LOADING};
+		case UPDATE_USER_SUCCESS: return {...state, updateUserStatus: REQUEST_STATUS.SUCCESS};
+		case UPDATE_USER_ERROR: return {...state, updateUserStatus: REQUEST_STATUS.ERROR};
 
         // [MODULE REDUCER] SWITCH CASE
         default: return state;

@@ -7,6 +7,10 @@ import authActions, {
 	SIGN_UP_SUCCESS,
 	SIGN_UP_ERROR,
 
+	GET_ME,
+	GET_ME_SUCCESS,
+	GET_ME_ERROR,
+
     // [MODULE REDUCER] IMPORT ACTIONS
 } from './auth.actions';
 import {ActionTypes} from "../redux/actions";
@@ -27,6 +31,10 @@ const authReducer = (state = initialState, action: ActionTypes): AuthState => {
 		case SIGN_UP: return {...state, signUpStatus: REQUEST_STATUS.LOADING};
 		case SIGN_UP_SUCCESS: return {...state, signUpStatus: REQUEST_STATUS.SUCCESS};
 		case SIGN_UP_ERROR: return {...state, signUpStatus: REQUEST_STATUS.ERROR};
+
+		case GET_ME: return {...state, getMeStatus: REQUEST_STATUS.LOADING};
+		case GET_ME_SUCCESS: return {...state, getMeStatus: REQUEST_STATUS.SUCCESS, userData: action.response};
+		case GET_ME_ERROR: return {...state, getMeStatus: REQUEST_STATUS.ERROR};
 
         // [MODULE REDUCER] SWITCH CASE
         default: return state;

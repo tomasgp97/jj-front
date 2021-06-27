@@ -10,5 +10,6 @@ export const services = {
 			.then(() => {
 				post(`/api/login`, {username, password}).then(data => data)
 			}),
+	getMe: () => get('/api/users/me'),
     // [MODULE SERVICES] NEW SERVICE
 };

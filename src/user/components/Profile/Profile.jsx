@@ -64,9 +64,9 @@ export const userProfile = (userData) => {
                     <div>
                         <h3>Posts</h3>
                     </div>
-                    <div>
+                    <div className={'profile-post-list'}>
                         {
-                            userData.list.map((x, index) => <PostCard text={x.text} key={index}/>)
+                            userData.list.map((x, index) => <PostCard dashboardCards={false} text={x.text} key={index}/>)
                         }
                     </div>
                 </div>

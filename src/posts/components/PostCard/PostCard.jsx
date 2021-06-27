@@ -43,12 +43,12 @@ const ownProfileCards = (text) => {
 
 const dashboardCardsComp = (text) => {
 
-    const handleAvatarclick = () => {
+    const handleAvatarClick = () => {
         // todo go to profile
     }
     return(
         <div className={'post-card'}>
-            <Avatar className={'avatar'} onClick={handleAvatarclick}>H</Avatar>
+            <Avatar className={'avatar'} onClick={handleAvatarClick}>H</Avatar>
             <p>{text || ''}</p>
         </div>
         )

@@ -58,11 +58,26 @@ const PostList = (props) => {
         setPostMessage(event.target.value)
     }
 
+    const handleCreatePost = () => {
+        newPost(postMessage)
+    }
+
     useEffect(()=> {
         getPosts(1006);
     }, [])
+
     useEffect(()=> {
-    }, [getPostsStatus]);
+        if (previousStatus && previousStatus.getPostsStatus !== getPostsStatus && getPostsStatus && getPostsStatus.success){
+                setPostList(posts)
+            }
+        }, [getPostsStatus]);
+
+    useEffect(()=> {
+        if (previousStatus && previousStatus.newPostStatus !== newPostStatus && newPostStatus && newPostStatus.success){
+            setPostMessage('');
+            getPosts(1006)
+        }
+    }, [newPostStatus]);
 
     useEffect(()=> {}, [newPostStatus]);
 
@@ -82,7 +97,7 @@ const PostList = (props) => {
                 variant="outlined"/>
 
                 <div className={'send-button'}>
-                    <Button variant="contained" color="primary">
+                    <Button disabled={postMessage.length === 0 || postMessage.length >= 140 } onClick={handleCreatePost} variant="contained" color="primary">
                         Post
                     </Button>
                 </div>
@@ -90,7 +105,7 @@ const PostList = (props) => {
 
             <div className={'body'}>
                 {
-                    postList.map(x => <PostCard text={x.text}/>)
+                    postList.map(x => <PostCard psotKey={x.postId} text={x.text}/>)
                 }
             </div>
         </div>

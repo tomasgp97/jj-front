@@ -16,13 +16,14 @@ import {Favorite} from "@material-ui/icons";
 const PostCard = (props) => {
     const {
         text,
-        dashboardCards = true
+        dashboardCards = true,
+        postId
     } = props;
 
 
 
     return (
-        dashboardCards? <DashboardCardsComp text={text}/>: ownProfileCards(text)
+        dashboardCards? <DashboardCardsComp postId={postId} text={text}/>: ownProfileCards(text)
     );
 };
 
@@ -43,7 +44,7 @@ const ownProfileCards = (text) => {
     </div>)
 }
 
-const DashboardCardsComp = ({text}) => {
+const DashboardCardsComp = ({text, postId}) => {
 
     const [isLiked, setIsLiked] = useState(false);
 
@@ -52,11 +53,11 @@ const DashboardCardsComp = ({text}) => {
     }
     const handleLikePost = () => {
         // todo
-        setIsLiked(true);
+        setIsLiked(!isLiked);
     }
 
     return(
-        <div className={'post-card'}>
+        <div className={'post-card'} key={postId}>
             <div className={'avatar-info'}>
                 <Avatar className={'avatar'} onClick={handleAvatarClick}>H</Avatar>
                 <p>{text || ''}</p>

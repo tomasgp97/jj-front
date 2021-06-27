@@ -105,7 +105,7 @@ const PostList = (props) => {
 
             <div className={'body'}>
                 {
-                    postList.map(x => <PostCard psotKey={x.postId} text={x.text}/>)
+                    postList.map((x, index) => <PostCard key={index} userId={x.userId} postKey={x.postId} text={x.text}/>)
                 }
             </div>
         </div>

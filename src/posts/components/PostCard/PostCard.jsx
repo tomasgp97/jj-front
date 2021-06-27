@@ -7,6 +7,7 @@ import Avatar from '@material-ui/core/Avatar';
 import ClearIcon from '@material-ui/icons/Clear';
 import {IconButton} from "@material-ui/core";
 import {Favorite} from "@material-ui/icons";
+import {useHistory} from "react-router-dom";
 
 /**
  * @description
@@ -17,13 +18,14 @@ const PostCard = (props) => {
     const {
         text,
         dashboardCards = true,
-        postId
+        postKey,
+        userId
     } = props;
 
 
 
     return (
-        dashboardCards? <DashboardCardsComp postId={postId} text={text}/>: ownProfileCards(text)
+        dashboardCards? <DashboardCardsComp userId={userId} postId={postKey} text={text}/>: ownProfileCards(text)
     );
 };
 
@@ -44,14 +46,16 @@ const ownProfileCards = (text) => {
     </div>)
 }
 
-const DashboardCardsComp = ({text, postId}) => {
+const DashboardCardsComp = ({text, postId, userId}) => {
 
+    const history = useHistory();
     const [isLiked, setIsLiked] = useState(false);
 
     const handleAvatarClick = () => {
-        // todo go to profile
+       history.push(`/profile?id=${userId}`);
     }
     const handleLikePost = () => {
+
         // todo
         setIsLiked(!isLiked);
     }

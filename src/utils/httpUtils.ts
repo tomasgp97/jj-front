@@ -59,7 +59,7 @@ export const authGet = (url: string, config : Config) => _request(url, "GET", {}
 
 export const authPost = (url: string, body: {}) => _request(url, "POST", body, undefined);
 
-export const put = (url: string, body: {}, config: Config) => _request(url, "PUT", body, config);
+export const put = (url: string, body: {}, config?: Config) => _request(url, "PUT", body, config);
 
 export const authPut = (url: string, body: {}, config: Config) => _request(url, "PUT", body, { ...config, baseUrl: appSettings.baseHost});
 

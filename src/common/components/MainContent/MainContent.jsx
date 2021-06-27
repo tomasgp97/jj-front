@@ -6,6 +6,7 @@ import Profile from "../../../user/components/Profile/Profile";
 import PostList from "../../../posts/components/PostList/PostList";
 import {Switch} from "react-router-dom";
 import {Route} from "react-router";
+import EditProfile from "../../../user/components/EditProfile/EditProfile";
 
 /**
  * @description
@@ -22,6 +23,7 @@ const MainContent = (props) => {
             <Switch>
                 {/*TODO make Private route only for testing*/}
                 <Route path={'/profile'} component={Profile}/>
+                <Route path={'/Edit-profile'} component={EditProfile}/>
                 <Route path={'/'} component={PostList}/>
 
             </Switch>

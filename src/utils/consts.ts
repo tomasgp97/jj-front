@@ -8,5 +8,6 @@ export const PATH = {
     SIGN_IN:'/login',
     SIGN_UP:'/signup',
     RECOVERY_PASSWORD:'/recovery',
-    ACTIVITIES:'/home',
+    HOME:'/home',
+    EDIT_PROFILE:'Edit-profile'
 }

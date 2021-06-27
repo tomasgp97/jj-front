@@ -2,7 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import './Profile.scss';
 import PostCard from "../../../posts/components/PostCard/PostCard";
-import {usePrevious} from "../../../utils/hooksRef";
+import {Edit} from "@material-ui/icons";
+import {IconButton} from "@material-ui/core";
+import {useHistory} from "react-router-dom";
+import {PATH} from "../../../utils/consts";
 
 
 /**
@@ -42,12 +45,16 @@ const Profile = (props) => {
     return (
         // y el perfil que estoy viendo es solo texto y un boton de seguir. Entrare con algo como un profile/{id}
         <div style={{width: '100%', height: '100%'}}>
-            {userProfile({list: postList})}
+            <UserProfile userData={postList}/>
         </div>
     );
 };
+const UserProfile = (props) => {
+    const {
+     userData
+    } = props
+    const history = useHistory();
 
-export const userProfile = (userData) => {
     return (
         <div className={'user-profile'}>
             <div className={'profile-column'}>
@@ -58,7 +65,13 @@ export const userProfile = (userData) => {
             </div>
             <div className={'profile-data-column'}>
                 <div className={'title'}>
-                    <h2>Nombre</h2>
+                    <h2>
+                        Nombre
+                        <IconButton color="primary" aria-label="upload picture" component="span" onClick={_ => history.push(PATH.EDIT_PROFILE)}>
+                            <Edit/>
+                        </IconButton>
+                    </h2>
+
                 </div>
                 <div className={'posts-list'}>
                     <div>
@@ -66,7 +79,7 @@ export const userProfile = (userData) => {
                     </div>
                     <div className={'profile-post-list'}>
                         {
-                            userData.list.map((x, index) => <PostCard dashboardCards={false} text={x.text} key={index}/>)
+                            userData?.map((x, index) => <PostCard dashboardCards={false} text={x.text} key={index}/>)
                         }
                     </div>
                 </div>

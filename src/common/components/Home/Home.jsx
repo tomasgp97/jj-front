@@ -10,11 +10,6 @@ import PostList from "../../../posts/components/PostList/PostList";
 import MainContent from "../MainContent/MainContent";
 import {Button} from "@material-ui/core";
 
-
-export const PATH = {
-    HOME:'/home',
-    PROFILE: '/profile'
-}
 /**
  * @description
  * @param { object } props no redux
@@ -25,7 +20,6 @@ const Home = (props) => {
 
     } = props;
 
-    const history = useHistory();
 
     return (
         <div>

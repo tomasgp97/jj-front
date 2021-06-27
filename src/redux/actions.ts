@@ -8,6 +8,7 @@ import userActions from '../user/user.actions';
 // [GLOBAL ACTIONS] IMPORT MODULE ACTIONS
 import {PostsActionTypes} from '../posts/posts.actions';
 import {AuthActionTypes} from '../auth/auth.actions';
+import {UserActionTypes} from '../user/user.actions';
 // [GLOBAL ACTIONS] IMPORT MODULE ACTION TYPES
 
 export default {
@@ -23,4 +24,5 @@ export type ActionTypes = LocationChange
     | Rehydrate
 	| PostsActionTypes
 	| AuthActionTypes
+	| UserActionTypes
     // [GLOBAL ACTIONS] EXPORT ACTION TYPE

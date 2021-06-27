@@ -1,18 +1,44 @@
 import {RequestStatus, ResponseAction, ResponseErrorAction} from "../common/types";
 
+interface UpdateProfileRequest {
+    type: typeof UPDATE_PROFILE,
+}
+
 // [MODULE_ACTIONS] NEW INTERFACE
+
+export const UPDATE_PROFILE = 'UPDATE_PROFILE';
+export const UPDATE_PROFILE_SUCCESS = 'UPDATE_PROFILE_SUCCESS';
+export const UPDATE_PROFILE_ERROR = 'UPDATE_PROFILE_ERROR';
 
 // [MODULE_ACTIONS] EXPORT ACTION
 
-// [MODULE_ACTIONS] MODULE RESPONSE ACTIONS
+export interface UserResponseAction extends ResponseAction {
+    type:
+       typeof UPDATE_PROFILE_SUCCESS
+        // [MODULE_ACTIONS] ADD ACTION TO RESPONSE ACTIONS TYPE
+}
 
-// [MODULE_ACTIONS] MODULE ERROR ACTIONS
+export interface UserResponseErrorAction extends ResponseErrorAction {
+   type:
+        typeof UPDATE_PROFILE_ERROR
+        // [MODULE_ACTIONS] ADD ACTION TO ERROR ACTIONS TYPE
+}
 
 const userActions = {
+	updateProfile: (data: any) => ({type: UPDATE_PROFILE}),
+	updateProfileSuccess: (response: any): UserResponseAction => ({type: UPDATE_PROFILE_SUCCESS, response}),
+	updateProfileError: (error: any): UserResponseErrorAction => ({type: UPDATE_PROFILE_ERROR, error}),
+
     // [MODULE_ACTIONS] DEFINE NEW ACTIONS
 };
 
-// [MODULE_ACTIONS] EXPORT TYPES DECLARATION
+export type UserActionTypes = (
+      UserResponseAction 
+    | UserResponseErrorAction
+    | UpdateProfileRequest
+    // [MODULE_ACTIONS] EXPORT ACTION TYPE
+)
+
 
 
 export interface UserState {

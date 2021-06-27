@@ -26,9 +26,15 @@ const Profile = (props) => {
         userData,
 
         followUser,
+        followUserStatus,
+
         getFollowedUsers,
         followedUsers,
-        getFollowedUsersStatus
+        getFollowedUsersStatus,
+
+
+        unfollow,
+        unfollowStatus
     } = props;
 
 
@@ -51,9 +57,7 @@ const Profile = (props) => {
         }
     }, [getPostsStatus]);
 
-    // Ver los datos posts de dicho usuario
     return (
-        // y el perfil que estoy viendo es solo texto y un boton de seguir. Entrare con algo como un profile/{id}
         <div style={{width: '100%', height: '100%'}}>
                 <UserProfile personId={queryId}
                              loggedInUserData={userData}
@@ -61,6 +65,10 @@ const Profile = (props) => {
                              getPosts={getPosts}
 
                              followUser={followUser}
+                             followUserStatus={followUserStatus}
+
+                             unfollow={unfollow}
+                             unfollowStatus={unfollowStatus}
 
                              getFollowedUsers={getFollowedUsers}
                              getFollowedUsersStatus={getFollowedUsersStatus}
@@ -78,7 +86,12 @@ const UserProfile = (props) => {
         deletePostStatus,
         getPosts,
         loggedInUserData,
+
         followUser,
+        followUserStatus,
+
+        unfollow,
+        unfollowStatus,
 
         getFollowedUsersStatus,
         followedUsers,
@@ -86,7 +99,7 @@ const UserProfile = (props) => {
     } = props
     const history = useHistory();
 
-    const previousStatus = usePrevious({deletePostStatus, getFollowedUsersStatus});
+    const previousStatus = usePrevious({deletePostStatus, getFollowedUsersStatus, unfollowStatus, followUserStatus});
     const [isFollowingThisUser, setIsFollowingThisUser] = useState(false);
 
     useEffect(()=> {
@@ -95,6 +108,7 @@ const UserProfile = (props) => {
         }
     }, [])
 
+    // todo. Obviamente necesita un refactor
     useEffect(() => {
         if (previousStatus && previousStatus.getFollowedUsersStatus !== getFollowedUsersStatus && getFollowedUsersStatus && getFollowedUsersStatus.success) {
             const followedUsersListId = followedUsers.map(x=> x.id);
@@ -102,6 +116,18 @@ const UserProfile = (props) => {
             setIsFollowingThisUser(followedUsersListId.some(user=> user === parsedInt));
         }
     }, [getFollowedUsersStatus]);
+
+    useEffect(() => {
+        if (previousStatus && previousStatus.unfollowStatus !== unfollowStatus && unfollowStatus && unfollowStatus.success) {
+            getFollowedUsers(loggedInUserData.id)
+        }
+    }, [unfollowStatus]);
+
+    useEffect(() => {
+        if (previousStatus && previousStatus.followUserStatus !== followUserStatus && followUserStatus && followUserStatus.success) {
+            getFollowedUsers(loggedInUserData.id)
+        }
+    }, [followUserStatus]);
 
     useEffect(() => {
         if (previousStatus && previousStatus.deletePostStatus !== deletePostStatus && deletePostStatus && deletePostStatus.success) {
@@ -114,7 +140,7 @@ const UserProfile = (props) => {
     }
 
     const handleUnfollow = () => {
-        followUser(loggedInUserData.id, parseInt(personId))
+        unfollow(loggedInUserData.id, parseInt(personId));
     }
 
     return (
@@ -170,7 +196,9 @@ const mapStateToProps = (state) => (
 {
     getPostsStatus: state.posts.getPostsStatus,
     getFollowedUsersStatus: state.user.getFollowedUsersStatus,
+    unfollowStatus: state.user.unfollowStatus,
     followedUsers: state.user.followedUsers,
+    followUserStatus: state.posts.followUserStatus,
     posts: state.posts.posts,
     deletePostStatus: state.posts.deletePostStatus,
     userData: state.auth.userData
@@ -187,6 +215,10 @@ const mapDispatchToProps = (dispatch) => (
     },
     getFollowedUsers: (id) => {
         dispatch(userActions.getFollowedUsers(id))
+    },
+
+    unfollow: (useId, followingId) => {
+        dispatch(userActions.unfollow(useId, followingId))
     },
 }
 );

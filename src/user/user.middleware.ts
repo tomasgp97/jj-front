@@ -1,6 +1,7 @@
 import userActions, {
 	UPDATE_PROFILE,
 	GET_FOLLOWED_USERS,
+	UNFOLLOW,
     // [MODULE MIDDLEWARE] IMPORT ACTIONS
 } from './user.actions';
 import  {services} from './user.services'
@@ -18,6 +19,11 @@ const userMiddleware: Middleware = api => (next) => (action) => {
 			services.getFollowedUsers(action.id)
 				.then((response: any) => api.dispatch(userActions.getFollowedUsersSuccess(response)))
 				.catch((error: any) => api.dispatch(userActions.getFollowedUsersError(error)));
+			break;
+		case UNFOLLOW:
+			services.unfollow(action.userId, action.followingId)
+				.then((response: any) => api.dispatch(userActions.unfollowSuccess(response)))
+				.catch((error: any) => api.dispatch(userActions.unfollowError(error)));
 			break;
         // [MODULE MIDDLEWARE] SWITCH CASE
         default: break;

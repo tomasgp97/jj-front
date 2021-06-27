@@ -7,6 +7,10 @@ import userActions, {
 	GET_FOLLOWED_USERS_SUCCESS,
 	GET_FOLLOWED_USERS_ERROR,
 
+	UNFOLLOW,
+	UNFOLLOW_SUCCESS,
+	UNFOLLOW_ERROR,
+
     // [MODULE REDUCER] IMPORT ACTIONS
 } from './user.actions';
 import {ActionTypes} from "../redux/actions";
@@ -26,6 +30,10 @@ const userReducer = (state = initialState, action: ActionTypes): UserState => {
 		case GET_FOLLOWED_USERS: return {...state, getFollowedUsersStatus: REQUEST_STATUS.LOADING};
 		case GET_FOLLOWED_USERS_SUCCESS: return {...state, getFollowedUsersStatus: REQUEST_STATUS.SUCCESS, followedUsers: action.response};
 		case GET_FOLLOWED_USERS_ERROR: return {...state, getFollowedUsersStatus: REQUEST_STATUS.ERROR};
+
+		case UNFOLLOW: return {...state, unfollowStatus: REQUEST_STATUS.LOADING};
+		case UNFOLLOW_SUCCESS: return {...state, unfollowStatus: REQUEST_STATUS.SUCCESS};
+		case UNFOLLOW_ERROR: return {...state, unfollowStatus: REQUEST_STATUS.ERROR};
 
         // [MODULE REDUCER] SWITCH CASE
         default: return state;

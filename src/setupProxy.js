@@ -40,6 +40,12 @@ module.exports = function (app) {
                 target: "http://localhost:8080/",
             })
         );
+        app.use(
+            "/api/posts",
+            createProxyMiddleware({
+                target: "http://localhost:8081",
+            })
+        );
     }
 
 };

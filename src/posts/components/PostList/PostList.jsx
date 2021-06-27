@@ -58,7 +58,11 @@ const PostList = (props) => {
         setPostMessage(event.target.value)
     }
 
-    useEffect(()=> {}, [getPostsStatus]);
+    useEffect(()=> {
+        getPosts(1006);
+    }, [])
+    useEffect(()=> {
+    }, [getPostsStatus]);
 
     useEffect(()=> {}, [newPostStatus]);
 
@@ -101,8 +105,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    getPosts: () => {
-        dispatch(postsActions.getPosts())
+    getPosts: (id) => {
+        dispatch(postsActions.getPosts(id))
     },
     newPost: (text) => {
         dispatch(postsActions.newPost(text))

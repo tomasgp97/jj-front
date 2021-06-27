@@ -10,7 +10,7 @@ const postsMiddleware: Middleware = api => (next) => (action) => {
     next(action);
     switch (action.type) {
 		case GET_POSTS:
-			services.getPosts()
+			services.getPosts(action.id)
 				.then((response: any) => api.dispatch(postsActions.getPostsSuccess(response)))
 				.catch((error: any) => api.dispatch(postsActions.getPostsError(error)));
 			break;

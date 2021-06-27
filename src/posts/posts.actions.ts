@@ -35,7 +35,7 @@ export interface PostsResponseErrorAction extends ResponseErrorAction {
 }
 
 const postsActions = {
-	getPosts: () => ({type: GET_POSTS}),
+	getPosts: (id: number) => ({type: GET_POSTS, id}),
 	getPostsSuccess: (response: any): PostsResponseAction => ({type: GET_POSTS_SUCCESS, response}),
 	getPostsError: (error: any): PostsResponseErrorAction => ({type: GET_POSTS_ERROR, error}),
 

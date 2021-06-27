@@ -2,6 +2,7 @@ import postsActions, {
 	GET_POSTS,
 	NEW_POST,
 	DELETE_POST,
+	FOLLOW_USER,
     // [MODULE MIDDLEWARE] IMPORT ACTIONS
 } from './posts.actions';
 import  {services} from './posts.services'
@@ -24,6 +25,11 @@ const postsMiddleware: Middleware = api => (next) => (action) => {
 			services.deletePost(action.id)
 				.then((response: any) => api.dispatch(postsActions.deletePostSuccess(response)))
 				.catch((error: any) => api.dispatch(postsActions.deletePostError(error)));
+			break;
+		case FOLLOW_USER:
+			services.followUser(action.userId, action.followingId)
+				.then((response: any) => api.dispatch(postsActions.followUserSuccess(response)))
+				.catch((error: any) => api.dispatch(postsActions.followUserError(error)));
 			break;
         // [MODULE MIDDLEWARE] SWITCH CASE
         default: break;

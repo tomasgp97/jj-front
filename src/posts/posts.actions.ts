@@ -12,6 +12,10 @@ interface DeletePostRequest {
     type: typeof DELETE_POST,
 }
 
+interface FollowUserRequest {
+    type: typeof FOLLOW_USER,
+}
+
 // [MODULE_ACTIONS] NEW INTERFACE
 
 export const GET_POSTS = 'GET_POSTS';
@@ -26,6 +30,10 @@ export const DELETE_POST = 'DELETE_POST';
 export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
 export const DELETE_POST_ERROR = 'DELETE_POST_ERROR';
 
+export const FOLLOW_USER = 'FOLLOW_USER';
+export const FOLLOW_USER_SUCCESS = 'FOLLOW_USER_SUCCESS';
+export const FOLLOW_USER_ERROR = 'FOLLOW_USER_ERROR';
+
 // [MODULE_ACTIONS] EXPORT ACTION
 
 export interface PostsResponseAction extends ResponseAction {
@@ -33,6 +41,7 @@ export interface PostsResponseAction extends ResponseAction {
        typeof GET_POSTS_SUCCESS
 	| typeof NEW_POST_SUCCESS
 	| typeof DELETE_POST_SUCCESS
+	| typeof FOLLOW_USER_SUCCESS
         // [MODULE_ACTIONS] ADD ACTION TO RESPONSE ACTIONS TYPE
 }
 
@@ -41,6 +50,7 @@ export interface PostsResponseErrorAction extends ResponseErrorAction {
         typeof GET_POSTS_ERROR
 	| typeof NEW_POST_ERROR
 	| typeof DELETE_POST_ERROR
+	| typeof FOLLOW_USER_ERROR
         // [MODULE_ACTIONS] ADD ACTION TO ERROR ACTIONS TYPE
 }
 
@@ -57,6 +67,10 @@ const postsActions = {
 	deletePostSuccess: (response: any): PostsResponseAction => ({type: DELETE_POST_SUCCESS, response}),
 	deletePostError: (error: any): PostsResponseErrorAction => ({type: DELETE_POST_ERROR, error}),
 
+	followUser: (userId: any, followingId: any) => ({type: FOLLOW_USER, userId, followingId}),
+	followUserSuccess: (response: any): PostsResponseAction => ({type: FOLLOW_USER_SUCCESS, response}),
+	followUserError: (error: any): PostsResponseErrorAction => ({type: FOLLOW_USER_ERROR, error}),
+
     // [MODULE_ACTIONS] DEFINE NEW ACTIONS
 };
 
@@ -66,6 +80,7 @@ export type PostsActionTypes = (
     | GetPostsRequest
 	| NewPostRequest
 	| DeletePostRequest
+	| FollowUserRequest
     // [MODULE_ACTIONS] EXPORT ACTION TYPE
 )
 

@@ -11,6 +11,10 @@ import postsActions, {
 	DELETE_POST_SUCCESS,
 	DELETE_POST_ERROR,
 
+	FOLLOW_USER,
+	FOLLOW_USER_SUCCESS,
+	FOLLOW_USER_ERROR,
+
     // [MODULE REDUCER] IMPORT ACTIONS
 } from './posts.actions';
 import {ActionTypes} from "../redux/actions";
@@ -34,6 +38,10 @@ const postsReducer = (state = initialState, action: ActionTypes): PostsState => 
 		case DELETE_POST: return {...state, deletePostStatus: REQUEST_STATUS.LOADING};
 		case DELETE_POST_SUCCESS: return {...state, deletePostStatus: REQUEST_STATUS.SUCCESS};
 		case DELETE_POST_ERROR: return {...state, deletePostStatus: REQUEST_STATUS.ERROR};
+
+		case FOLLOW_USER: return {...state, followUserStatus: REQUEST_STATUS.LOADING};
+		case FOLLOW_USER_SUCCESS: return {...state, followUserStatus: REQUEST_STATUS.SUCCESS};
+		case FOLLOW_USER_ERROR: return {...state, followUserStatus: REQUEST_STATUS.ERROR};
 
         // [MODULE REDUCER] SWITCH CASE
         default: return state;

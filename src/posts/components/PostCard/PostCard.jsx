@@ -25,13 +25,12 @@ const PostCard = (props) => {
 
 
         deletePost,
-        deletePostStatus,
-        getPosts
+        userData
     } = props;
 
     return (
         dashboardCards ?
-            <DashboardCardsComp userId={userId} postId={postKey} text={text}/> :
+            <DashboardCardsComp userData={userData} userId={userId} postId={postKey} text={text}/> :
             <OwnProfileCards text={text} postId={postKey} deletePost={deletePost}/>
     );
 };
@@ -58,13 +57,16 @@ const OwnProfileCards = (
         </div>)
 }
 
-const DashboardCardsComp = ({text, postId, userId}) => {
+const DashboardCardsComp = ({text, postId, userId, userData}) => {
 
     const history = useHistory();
     const [isLiked, setIsLiked] = useState(false);
 
     const handleAvatarClick = () => {
-        history.push(`/profile?id=${userId}`);
+        userData.id === userId ?
+            history.push(`/profile`)
+            :
+            history.push(`/profile?id=${userId}`);
     }
     const handleLikePost = () => {
 
@@ -89,6 +91,7 @@ const DashboardCardsComp = ({text, postId, userId}) => {
 
 const mapStateToProps = (state) => ({
     deletePostStatus: state.posts.deletePostStatus,
+    userData: state.auth.userData
 });
 
 const mapDispatchToProps = (dispatch) => ({

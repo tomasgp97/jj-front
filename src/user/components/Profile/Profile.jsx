@@ -6,6 +6,8 @@ import {Edit} from "@material-ui/icons";
 import {IconButton} from "@material-ui/core";
 import {useHistory} from "react-router-dom";
 import {PATH} from "../../../utils/consts";
+import postsActions from "../../../posts/posts.actions";
+import {usePrevious} from "../../../utils/hooksRef";
 
 
 /**
@@ -15,45 +17,52 @@ import {PATH} from "../../../utils/consts";
  */
 const Profile = (props) => {
     const {
+        getPosts,
+        getPostsStatus,
+        posts,
 
+        deletePostStatus
     } = props;
 
+
+    const previousStatus = usePrevious({getPostsStatus});
 
 
     const [postList, setPostList] = useState([]);
 
     useEffect(()=> {
-        setPostList([
-            {text: 'testing'},
-            {text: 'testing2'},
-            {text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},{text: 'testing'},
-            {text: 'testing2'},
-        ])
+        getPosts(1006);
     }, [])
+
+    useEffect(()=> {
+        if (previousStatus && previousStatus.getPostsStatus !== getPostsStatus && getPostsStatus && getPostsStatus.success){
+            setPostList(posts)
+        }
+    }, [getPostsStatus]);
 
     // Ver los datos posts de dicho usuario
     return (
         // y el perfil que estoy viendo es solo texto y un boton de seguir. Entrare con algo como un profile/{id}
         <div style={{width: '100%', height: '100%'}}>
-            <UserProfile userData={postList}/>
+            <UserProfile userData={postList} getPosts={getPosts} deletePostStatus={deletePostStatus}/>
         </div>
     );
 };
 const UserProfile = (props) => {
     const {
-     userData
+        userData,
+        deletePostStatus,
+        getPosts,
     } = props
     const history = useHistory();
+
+    const previousStatus = usePrevious({deletePostStatus});
+
+    useEffect(() => {
+        if (previousStatus && previousStatus.deletePostStatus !== deletePostStatus && deletePostStatus && deletePostStatus.success) {
+            getPosts(1006)
+        }
+    }, [deletePostStatus]);
 
     return (
         <div className={'user-profile'}>
@@ -79,7 +88,7 @@ const UserProfile = (props) => {
                     </div>
                     <div className={'profile-post-list'}>
                         {
-                            userData?.map((x, index) => <PostCard dashboardCards={false} text={x.text} key={index}/>)
+                            userData?.map((x, index) => <PostCard dashboardCards={false} postKey={x.postId} text={x.text} key={index}/>)
                         }
                     </div>
                 </div>
@@ -89,11 +98,15 @@ const UserProfile = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-
+    getPostsStatus: state.posts.getPostsStatus,
+    posts: state.posts.posts,
+    deletePostStatus: state.posts.deletePostStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+    getPosts: (id) => {
+        dispatch(postsActions.getPosts(id))
+    },
 });
 
 Profile.propTypes = {

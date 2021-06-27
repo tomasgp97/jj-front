@@ -7,6 +7,10 @@ import postsActions, {
 	NEW_POST_SUCCESS,
 	NEW_POST_ERROR,
 
+	DELETE_POST,
+	DELETE_POST_SUCCESS,
+	DELETE_POST_ERROR,
+
     // [MODULE REDUCER] IMPORT ACTIONS
 } from './posts.actions';
 import {ActionTypes} from "../redux/actions";
@@ -26,6 +30,10 @@ const postsReducer = (state = initialState, action: ActionTypes): PostsState => 
 		case NEW_POST: return {...state, newPostStatus: REQUEST_STATUS.LOADING};
 		case NEW_POST_SUCCESS: return {...state, newPostStatus: REQUEST_STATUS.SUCCESS, post: action.response};
 		case NEW_POST_ERROR: return {...state, newPostStatus: REQUEST_STATUS.ERROR};
+
+		case DELETE_POST: return {...state, deletePostStatus: REQUEST_STATUS.LOADING};
+		case DELETE_POST_SUCCESS: return {...state, deletePostStatus: REQUEST_STATUS.SUCCESS};
+		case DELETE_POST_ERROR: return {...state, deletePostStatus: REQUEST_STATUS.ERROR};
 
         // [MODULE REDUCER] SWITCH CASE
         default: return state;

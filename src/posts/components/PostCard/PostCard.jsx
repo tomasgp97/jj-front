@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import './PostCard.scss';
 import Chip from '@material-ui/core/Chip';
@@ -8,6 +8,8 @@ import ClearIcon from '@material-ui/icons/Clear';
 import {IconButton} from "@material-ui/core";
 import {Favorite} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
+import postsActions from "../../posts.actions";
+import {usePrevious} from "../../../utils/hooksRef";
 
 /**
  * @description
@@ -19,31 +21,41 @@ const PostCard = (props) => {
         text,
         dashboardCards = true,
         postKey,
-        userId
+        userId,
+
+
+        deletePost,
+        deletePostStatus,
+        getPosts
     } = props;
 
-
-
     return (
-        dashboardCards? <DashboardCardsComp userId={userId} postId={postKey} text={text}/>: ownProfileCards(text)
+        dashboardCards ?
+            <DashboardCardsComp userId={userId} postId={postKey} text={text}/> :
+            <OwnProfileCards text={text} postId={postKey} deletePost={deletePost}/>
     );
 };
 
-const ownProfileCards = (text) => {
+const OwnProfileCards = (
+    {
+        text, postId, deletePost
+    }
+) => {
 
-    const handleDelete = (postId) => {
-        // todo
+    const handleDelete = () => {
+        deletePost(postId)
     }
 
     // solo puede elimiar post propios
-    return(
-    <div className={'profile-post-card'}>
-        <p>{text || ''}</p>
-        <Chip
-            label={<ClearIcon />}
-            color="secondary"
-        />
-    </div>)
+    return (
+        <div className={'profile-post-card'}>
+            <p>{text || ''}</p>
+            <Chip
+                onClick={handleDelete}
+                label={<ClearIcon/>}
+                color="secondary"
+            />
+        </div>)
 }
 
 const DashboardCardsComp = ({text, postId, userId}) => {
@@ -52,7 +64,7 @@ const DashboardCardsComp = ({text, postId, userId}) => {
     const [isLiked, setIsLiked] = useState(false);
 
     const handleAvatarClick = () => {
-       history.push(`/profile?id=${userId}`);
+        history.push(`/profile?id=${userId}`);
     }
     const handleLikePost = () => {
 
@@ -60,7 +72,7 @@ const DashboardCardsComp = ({text, postId, userId}) => {
         setIsLiked(!isLiked);
     }
 
-    return(
+    return (
         <div className={'post-card'} key={postId}>
             <div className={'avatar-info'}>
                 <Avatar className={'avatar'} onClick={handleAvatarClick}>H</Avatar>
@@ -68,16 +80,25 @@ const DashboardCardsComp = ({text, postId, userId}) => {
             </div>
             <div>
                 <IconButton onClick={handleLikePost} color="primary" aria-label="upload picture" component="span">
-                    <Favorite color={ isLiked? 'secondary': 'primary'} />
+                    <Favorite color={isLiked ? 'secondary' : 'primary'}/>
                 </IconButton>
             </div>
         </div>
-        )
+    )
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    deletePostStatus: state.posts.deletePostStatus,
+});
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+    deletePost: (id) => {
+        dispatch(postsActions.deletePost(id))
+    },
+    getPosts: (id) => {
+        dispatch(postsActions.getPosts(id))
+    },
+});
 
 PostCard.propTypes = {};
 

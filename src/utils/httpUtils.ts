@@ -65,7 +65,7 @@ export const authPut = (url: string, body: {}, config: Config) => _request(url, 
 
 export const patch = (url: string, body: {}, config: Config) => _request(url, "PATCH", body, config);
 //
-export const deleteRequest = (url: string, body: {}, config: Config) => _request(url, "DELETE", body, config);
+export const deleteRequest = (url: string, body = {}, config?: Config) => _request(url, "DELETE", body, config);
 
 export const services = {
     refreshToken: (token: string) => post(webApi + "auth/refresh/", {token}),

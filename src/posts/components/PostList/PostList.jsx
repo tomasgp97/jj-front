@@ -29,6 +29,8 @@ const PostList = (props) => {
     //  eliminar mis posts
 
     const [postList, setPostList] = useState([]);
+    const [postMessage, setPostMessage] = useState('');
+
 
     const previousStatus = usePrevious({getPostsStatus, newPostStatus});
 
@@ -52,6 +54,10 @@ const PostList = (props) => {
         ])
     }, [])
 
+    const handleWriteMassage = (event) => {
+        setPostMessage(event.target.value)
+    }
+
     useEffect(()=> {}, [getPostsStatus]);
 
     useEffect(()=> {}, [newPostStatus]);
@@ -64,6 +70,8 @@ const PostList = (props) => {
             <TextField
                 id="outlined-multiline-static"
                 label="Multiline"
+                value={postMessage}
+                onChange={handleWriteMassage}
                 multiline
                 placeholder="Write a comment"
                 rows={5}

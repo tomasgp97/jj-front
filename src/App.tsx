@@ -7,6 +7,7 @@ import Profile from "./user/components/Profile/Profile";
 import {PrivateRoute} from "./auth/PrivateRoute";
 import Home from "./common/components/Home/Home";
 import {createBrowserHistory} from "history";
+import PublicRoute from "./auth/PublicRoute";
 
 function App() {
     const historyInstance = createBrowserHistory();
@@ -16,11 +17,11 @@ function App() {
             {/*// @ts-ignore*/}
             <BrowserRouter history={historyInstance}>
             <Switch>
-                <Route path={'/login'} render={(): JSX.Element => <Login/>}/>
-                <Route path={'/signUp'} render={(): JSX.Element => <SignUp/>}/>
+                <PublicRoute path={'/login'} component={Login}/>
+                <PublicRoute path={'/signUp'} component={SignUp}/>
                 <PrivateRoute path={'/home'} component={Home}/>
                 <PrivateRoute path={'/'} component={Home}/>
-                <Route path={'/'} render={(): JSX.Element => <Login/>}/>
+                <PublicRoute path={'/'} component={Login}/>
             </Switch>
             </BrowserRouter>
         </div>

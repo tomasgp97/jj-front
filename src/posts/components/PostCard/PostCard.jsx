@@ -42,10 +42,10 @@ const OwnProfileCards = (
 ) => {
 
     const handleDelete = () => {
+        console.log(postId);
         deletePost(postId)
     }
 
-    // solo puede elimiar post propios
     return (
         <div className={'profile-post-card'}>
             <p>{text || ''}</p>

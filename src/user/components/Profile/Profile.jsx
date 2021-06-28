@@ -195,7 +195,8 @@ const UserProfile = (props) => {
                     <div className={'profile-post-list'}>
                         {
                             userData?.map((x, index) => <PostCard dashboardCards={personId !== null}
-                                                                  wpostKey={x.postId}
+                                                                  postKey={x.postId}
+                                                                  userId={x.userId}
                                                                   text={x.text} key={index}/>)
                         }
                     </div>

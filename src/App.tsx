@@ -18,9 +18,9 @@ function App() {
             <Switch>
                 <Route path={'/login'} render={(): JSX.Element => <Login/>}/>
                 <Route path={'/signUp'} render={(): JSX.Element => <SignUp/>}/>
-                <Route path={'/home'} component={Home}/>
-                <Route path={'/'} component={Home}/>
-                {/*<Route path={'/'} render={(): JSX.Element => <Login/>}/>*/}
+                <PrivateRoute path={'/home'} component={Home}/>
+                <PrivateRoute path={'/'} component={Home}/>
+                <Route path={'/'} render={(): JSX.Element => <Login/>}/>
             </Switch>
             </BrowserRouter>
         </div>

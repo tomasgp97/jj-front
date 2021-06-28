@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import './Login.scss';
 import authActions from "../../auth.actions";
 import {Button, TextField} from "@material-ui/core";
+import {usePrevious} from "../../../utils/hooksRef";
+import {useHistory} from "react-router-dom";
 
 /**
  * @description
@@ -18,10 +20,15 @@ const Login = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(()=> {
-        if(postCredentialsStatus?.success){
+    const previousStatus = usePrevious({postCredentialsStatus});
 
+    const history = useHistory();
+
+    useEffect(()=> {
+        if (previousStatus && previousStatus.postCredentialsStatus !== postCredentialsStatus && postCredentialsStatus && postCredentialsStatus.success){
+            history.push('/')
         }
+
     } , [postCredentialsStatus])
 
     const handleUsernameChange = (event) => {

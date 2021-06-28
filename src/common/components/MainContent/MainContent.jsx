@@ -21,10 +21,9 @@ const MainContent = (props) => {
     return (
         <div>
             <Switch>
-                {/*TODO make Private route only for testing*/}
-                <Route path={'/profile'} component={Profile}/>
-                <Route path={'/Edit-profile'} component={EditProfile}/>
-                <Route path={'/'} component={PostList}/>
+                <PrivateRoute path={'/profile'} component={Profile}/>
+                <PrivateRoute path={'/Edit-profile'} component={EditProfile}/>
+                <PrivateRoute path={'/'} component={PostList}/>
 
             </Switch>
         </div>

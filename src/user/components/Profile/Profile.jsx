@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import './Profile.scss';
 import PostCard from "../../../posts/components/PostCard/PostCard";
@@ -9,6 +9,7 @@ import {PATH} from "../../../utils/consts";
 import postsActions from "../../../posts/posts.actions";
 import {usePrevious} from "../../../utils/hooksRef";
 import userActions from "../../user.actions";
+import {services} from '../../user.services'
 
 
 /**
@@ -101,12 +102,23 @@ const UserProfile = (props) => {
 
     const previousStatus = usePrevious({deletePostStatus, getFollowedUsersStatus, unfollowStatus, followUserStatus});
     const [isFollowingThisUser, setIsFollowingThisUser] = useState(false);
+    const [visitProfileData, setVisitProfileData] = useState(null);
 
     useEffect(()=> {
         if(personId){
             getFollowedUsers(loggedInUserData.id)
+            getProfileData().then()
         }
     }, [])
+    const getProfileData = useCallback(async () => {
+        try{
+            const user = await services.getProfileData(personId);
+            setVisitProfileData(user)
+        }catch (err) {
+            setVisitProfileData({username: 'Not existing user', email: ''})
+            console.error(err);
+        }
+    }, []);
 
     // todo. Obviamente necesita un refactor
     useEffect(() => {
@@ -148,13 +160,13 @@ const UserProfile = (props) => {
             <div className={'profile-column'}>
                 <div className={'profile-img'}>PROFILE:</div>
                 <div className={'additional-info'}>
-                    {loggedInUserData.email}
+                    {visitProfileData? visitProfileData.email : loggedInUserData.email}
                 </div>
             </div>
             <div className={'profile-data-column'}>
                 <div className={'title'}>
                     <h2>
-                        Username: {loggedInUserData.username}
+                        Username: {visitProfileData? visitProfileData.username : loggedInUserData.username}
                         {personId ?
                              isFollowingThisUser ?
                                 <IconButton color="primary" aria-label="upload picture" component="span"
@@ -162,7 +174,8 @@ const UserProfile = (props) => {
                                     <RemoveCircle/>
                                 </IconButton>
                                 :
-                                <IconButton color="primary" aria-label="upload picture" component="span"
+                                 visitProfileData?.email !== '' &&
+                                 <IconButton color="primary" aria-label="upload picture" component="span"
                                             onClick={handleFollow}>
                                     <GroupAdd/>
                                 </IconButton>

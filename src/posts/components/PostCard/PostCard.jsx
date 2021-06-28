@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import './PostCard.scss';
 import Chip from '@material-ui/core/Chip';
@@ -9,7 +9,7 @@ import {IconButton} from "@material-ui/core";
 import {Favorite} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
 import postsActions from "../../posts.actions";
-import {usePrevious} from "../../../utils/hooksRef";
+import {services} from "../../posts.services";
 
 /**
  * @description
@@ -62,6 +62,9 @@ const DashboardCardsComp = ({text, postId, userId, userData}) => {
     const history = useHistory();
     const [isLiked, setIsLiked] = useState(false);
 
+    useEffect(()=> {
+        // todo seter si esta likeado o no. hacer match de la lista de post likeados con el id de este post
+    } , [])
     const handleAvatarClick = () => {
         userData.id === userId ?
             history.push(`/profile`)
@@ -70,9 +73,29 @@ const DashboardCardsComp = ({text, postId, userId, userData}) => {
     }
     const handleLikePost = () => {
 
-        // todo
-        setIsLiked(!isLiked);
+        isLiked ?
+            unLike().then(() => setIsLiked(false))
+            :
+            likePost().then(() => setIsLiked(true))
+        // // todo
+        // setIsLiked(!isLiked);
     }
+
+    const likePost = useCallback(async () => {
+        try{
+            return await services.likePost(postId, userData.id);
+        }catch (err) {
+            console.error(err);
+        }
+    }, []);
+
+    const unLike = useCallback(async () => {
+        try{
+            return await services.unLikePost(postId, userData.id);
+        }catch (err) {
+            console.error(err);
+        }
+    }, []);
 
     return (
         <div className={'post-card'} key={postId}>

@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import './SignUp.scss';
 import {Button, TextField} from "@material-ui/core";
 import authActions from "../../auth.actions";
+import {usePrevious} from "../../../utils/hooksRef";
+import {useHistory} from "react-router-dom";
 
 
 /**
@@ -22,6 +24,17 @@ const SignUp = (props) => {
     const [lastName, setLastName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+
+    const previousStatus = usePrevious({signUpStatus});
+
+    const history = useHistory();
+
+    useEffect(()=> {
+        if (previousStatus && previousStatus.signUpStatus !== signUpStatus && signUpStatus && signUpStatus.success){
+            history.push('/login')
+        }
+
+    } , [signUpStatus])
 
     const handleUsernameInput = (event) => {
         setUsername(event.target.value);

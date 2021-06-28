@@ -2,6 +2,7 @@ import authActions, {
 	POST_CREDENTIALS,
 	SIGN_UP,
 	GET_ME,
+	LOGOUT,
     // [MODULE MIDDLEWARE] IMPORT ACTIONS
 } from './auth.actions';
 import  {services} from './auth.services'
@@ -30,6 +31,11 @@ const authMiddleware: Middleware = api => (next) => (action) => {
 			services.getMe()
 				.then((response: any) => api.dispatch(authActions.getMeSuccess(response)))
 				.catch((error: any) => api.dispatch(authActions.getMeError(error)));
+			break;
+		case LOGOUT:
+			services.logout()
+				.then((response: any) => api.dispatch(authActions.logoutSuccess(response)))
+				.catch((error: any) => api.dispatch(authActions.logoutError(error)));
 			break;
         // [MODULE MIDDLEWARE] SWITCH CASE
         default: break;

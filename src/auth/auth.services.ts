@@ -7,5 +7,6 @@ export const services = {
 	signUp: (username: any, password: any, firstName: any, lastName: any, email: any) =>
 		post(`/api/users/register`, {username, password, firstName, lastName, email}),
 	getMe: () => get('/api/users/me'),
-    // [MODULE SERVICES] NEW SERVICE
+	logout: () => post('/api/users/logout',{}),
+	// [MODULE SERVICES] NEW SERVICE
 };

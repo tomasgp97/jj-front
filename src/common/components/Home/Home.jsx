@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './Home.scss';
 import MainContent from "../MainContent/MainContent";
 import {Button} from "@material-ui/core";
+import {services} from "../../../auth/auth.services";
+import authActions from "../../../auth/auth.actions";
+import {connect} from "react-redux";
+import {usePrevious} from "../../../utils/hooksRef";
+import {useHistory} from "react-router-dom";
 
 /**
  * @description
@@ -10,9 +15,21 @@ import {Button} from "@material-ui/core";
  */
 const Home = (props) => {
     const {
-
+        logout,
+        logoutStatus
     } = props;
 
+    const handleLogout = () => {
+       logout();
+    }
+
+    const previousStatus = usePrevious({logoutStatus});
+    const history = useHistory();
+    useEffect(() => {
+        if (previousStatus && previousStatus.logoutStatus !== logoutStatus && logoutStatus && logoutStatus.success) {
+            history.push('/login')
+        }
+    }, [logoutStatus]);
 
     return (
         <div>
@@ -22,6 +39,10 @@ const Home = (props) => {
                 </Button>
                 <Button href="/profile" color="primary">
                     profile
+                </Button>
+
+                <Button color="primary" onClick={handleLogout}>
+                    logout
                 </Button>
             </div>
             <div>
@@ -34,6 +55,16 @@ const Home = (props) => {
 Home.propTypes = {
 
 };
+const mapStateToProps = (state) => ({
+    logoutStatus: state.auth.logoutStatus
+});
 
-export default Home;
+const mapDispatchToProps = (dispatch) => ({
+    logout: () =>{
+        dispatch(authActions.logout())
+    }
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 

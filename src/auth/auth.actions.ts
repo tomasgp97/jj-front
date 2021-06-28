@@ -12,6 +12,10 @@ interface GetMeRequest {
     type: typeof GET_ME,
 }
 
+interface LogoutRequest {
+    type: typeof LOGOUT,
+}
+
 // [MODULE_ACTIONS] NEW INTERFACE
 
 export const POST_CREDENTIALS = 'POST_CREDENTIALS';
@@ -26,6 +30,10 @@ export const GET_ME = 'GET_ME';
 export const GET_ME_SUCCESS = 'GET_ME_SUCCESS';
 export const GET_ME_ERROR = 'GET_ME_ERROR';
 
+export const LOGOUT = 'LOGOUT';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_ERROR = 'LOGOUT_ERROR';
+
 // [MODULE_ACTIONS] EXPORT ACTION
 
 export interface AuthResponseAction extends ResponseAction {
@@ -33,6 +41,7 @@ export interface AuthResponseAction extends ResponseAction {
        typeof POST_CREDENTIALS_SUCCESS
 	| typeof SIGN_UP_SUCCESS
 	| typeof GET_ME_SUCCESS
+	| typeof LOGOUT_SUCCESS
         // [MODULE_ACTIONS] ADD ACTION TO RESPONSE ACTIONS TYPE
 }
 
@@ -41,6 +50,7 @@ export interface AuthResponseErrorAction extends ResponseErrorAction {
         typeof POST_CREDENTIALS_ERROR
 	| typeof SIGN_UP_ERROR
 	| typeof GET_ME_ERROR
+	| typeof LOGOUT_ERROR
         // [MODULE_ACTIONS] ADD ACTION TO ERROR ACTIONS TYPE
 }
 
@@ -57,6 +67,10 @@ const authActions = {
 	getMeSuccess: (response: any): AuthResponseAction => ({type: GET_ME_SUCCESS, response}),
 	getMeError: (error: any): AuthResponseErrorAction => ({type: GET_ME_ERROR, error}),
 
+	logout: () => ({type: LOGOUT}),
+	logoutSuccess: (response: any): AuthResponseAction => ({type: LOGOUT_SUCCESS, response}),
+	logoutError: (error: any): AuthResponseErrorAction => ({type: LOGOUT_ERROR, error}),
+
     // [MODULE_ACTIONS] DEFINE NEW ACTIONS
 };
 
@@ -66,6 +80,7 @@ export type AuthActionTypes = (
     | PostCredentialsRequest
 	| SignUpRequest
 	| GetMeRequest
+	| LogoutRequest
     // [MODULE_ACTIONS] EXPORT ACTION TYPE
 )
 

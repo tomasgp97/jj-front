@@ -47,6 +47,12 @@ module.exports = function (app) {
             })
         );
         app.use(
+            "/api/likes",
+            createProxyMiddleware({
+                target: "http://localhost:8082",
+            })
+        );
+        app.use(
             "/api/posts",
             createProxyMiddleware({
                 target: "http://localhost:8082",

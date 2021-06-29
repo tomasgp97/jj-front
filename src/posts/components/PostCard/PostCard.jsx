@@ -83,7 +83,9 @@ const DashboardCardsComp = ({text, postId, userId, userData}) => {
 
     const likePost = useCallback(async () => {
         try{
-            return await services.likePost(postId, userData.id);
+            const intPostId = parseInt(postId);
+            const userDataId = parseInt(userData.id);
+            return await services.likePost(intPostId, userDataId);
         }catch (err) {
             console.error(err);
         }
@@ -91,7 +93,9 @@ const DashboardCardsComp = ({text, postId, userId, userData}) => {
 
     const unLike = useCallback(async () => {
         try{
-            return await services.unLikePost(postId, userData.id);
+            const intPostId = parseInt(postId);
+            const userDataId = parseInt(userData.id);
+            return await services.unLikePost(intPostId, userDataId);
         }catch (err) {
             console.error(err);
         }

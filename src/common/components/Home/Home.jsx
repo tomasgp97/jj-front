@@ -27,6 +27,7 @@ const Home = (props) => {
     const history = useHistory();
     useEffect(() => {
         if (previousStatus && previousStatus.logoutStatus !== logoutStatus && logoutStatus && logoutStatus.success) {
+            console.log('hola')
             history.push('/login')
         }
     }, [logoutStatus]);

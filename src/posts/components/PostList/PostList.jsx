@@ -19,8 +19,6 @@ const PostList = (props) => {
         homePosts,
 
         getLikedPosts,
-        getLikedPostsStatus,
-        likedPosts,
 
         newPost,
         newPostStatus,
@@ -35,9 +33,8 @@ const PostList = (props) => {
 
     const [postList, setPostList] = useState([]);
     const [postMessage, setPostMessage] = useState('');
-    const [likedPostsList, setLikedPostsList] = useState([]);
 
-    const previousStatus = usePrevious({getHomePostStatus, newPostStatus, getLikedPostsStatus});
+    const previousStatus = usePrevious({getHomePostStatus, newPostStatus});
 
 
     const handleWriteMassage = (event) => {
@@ -66,11 +63,6 @@ const PostList = (props) => {
         }
     }, [newPostStatus]);
 
-    useEffect(()=> {
-        if (previousStatus && previousStatus.getLikedPostsStatus !== getLikedPostsStatus && getLikedPostsStatus && getLikedPostsStatus.success){
-            setLikedPostsList(likedPosts)
-        }
-    }, [getLikedPostsStatus]);
 
     useEffect(()=> {}, [newPostStatus]);
 
@@ -99,7 +91,6 @@ const PostList = (props) => {
             <div className={'body'}>
                 {
                     postList.map((x, index) => <PostCard key={index}
-                                                         likedPosts={likedPostsList}
                                                          username={x.userDto.username}
                                                          userId={x.postDto.userId}
                                                          postKey={x.postDto.postId}
@@ -116,9 +107,6 @@ const mapStateToProps = (state) => ({
 
     newPostStatus: state.posts.newPostStatus,
     newPost: state.posts.post,
-
-    getLikedPostsStatus: state.posts.getLikedPostsStatus,
-    likedPosts: state.posts.likedPosts,
 
     userData: state.auth.userData
 });

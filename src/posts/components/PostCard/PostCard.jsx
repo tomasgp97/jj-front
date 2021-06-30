@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {connect} from 'react-redux';
+import {connect, useDispatch} from 'react-redux';
 import './PostCard.scss';
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
@@ -23,8 +23,7 @@ const PostCard = (props) => {
         postKey,
         userId,
         username,
-
-        likedPosts,
+        likedPostsState,
 
         deletePost,
         userData
@@ -32,7 +31,7 @@ const PostCard = (props) => {
 
     return (
         dashboardCards ?
-            <DashboardCardsComp likedPosts={likedPosts} userData={userData} username={username} userId={userId} postId={postKey} text={text}/> :
+            <DashboardCardsComp likedPostsState={likedPostsState} userData={userData} username={username} userId={userId} postId={postKey} text={text}/> :
             <OwnProfileCards text={text} postId={postKey} deletePost={deletePost}/>
     );
 };
@@ -59,15 +58,16 @@ const OwnProfileCards = (
         </div>)
 }
 
-const DashboardCardsComp = ({text, postId, userId, userData, username, likedPosts}) => {
+const DashboardCardsComp = ({text, postId, userId, userData, username, likedPostsState}) => {
 
     const history = useHistory();
     const [isLiked, setIsLiked] = useState(false);
+    const dispatch = useDispatch();
 
     useEffect(()=> {
-        const value = likedPosts.some(post => post.postId === postId);
+        const value = likedPostsState.some(post => post.postId === postId);
         setIsLiked(value)
-    } , [likedPosts])
+    } , [likedPostsState])
 
     const handleAvatarClick = () => {
         console.log(userId)
@@ -79,11 +79,18 @@ const DashboardCardsComp = ({text, postId, userId, userData, username, likedPost
     const handleLikePost = () => {
 
         isLiked ?
-            unLike().then(() => setIsLiked(false))
+            unLike().then(() => {
+                const userDataId = parseInt(userData.id);
+                dispatch(postsActions.getLikedPosts(userDataId));
+                setIsLiked(false)
+            })
             :
-            likePost().then(() => setIsLiked(true))
-        // // todo
-        // setIsLiked(!isLiked);
+            likePost().then(() => {
+                const userDataId = parseInt(userData.id);
+                dispatch(postsActions.getLikedPosts(userDataId));
+                setIsLiked(true)
+            })
+
     }
 
     const likePost = useCallback(async () => {
@@ -102,7 +109,6 @@ const DashboardCardsComp = ({text, postId, userId, userData, username, likedPost
             const intPostId = parseInt(postId);
             const userDataId = parseInt(userData.id);
             await services.unLikePost(intPostId, userDataId);
-            await postsActions.getLikedPosts(userDataId)
         }catch (err) {
             console.error(err);
         }
@@ -125,6 +131,7 @@ const DashboardCardsComp = ({text, postId, userId, userData, username, likedPost
 
 const mapStateToProps = (state) => ({
     deletePostStatus: state.posts.deletePostStatus,
+    likedPostsState: state.posts.likedPosts,
     userData: state.auth.userData
 });
 

@@ -22,14 +22,10 @@ const PostList = (props) => {
 
         newPost,
         newPostStatus,
-        post,
 
         userData
     } = props;
 
-    //  Crear post
-    //  Likear un post
-    //  eliminar mis posts
 
     const [postList, setPostList] = useState([]);
     const [postMessage, setPostMessage] = useState('');

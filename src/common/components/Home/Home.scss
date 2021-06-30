@@ -1,7 +1,12 @@
 .nav-bar{
   display: flex;
+  padding: 10px;
   a{
     margin: 5px;
     font-weight: bold;
+  }
+  #combo-box-div{
+    display: flex;
+    margin: auto;
   }
 }

@@ -42,7 +42,7 @@ const authReducer = (state = initialState, action: ActionTypes): AuthState => {
 
 		case LOGOUT: return {...state, logoutStatus: REQUEST_STATUS.LOADING};
 		case LOGOUT_SUCCESS: return {...state, logoutStatus: REQUEST_STATUS.SUCCESS, isLoggedIn: false};
-		case LOGOUT_ERROR: return {...state, logoutStatus: REQUEST_STATUS.ERROR};
+		case LOGOUT_ERROR: return {...state, logoutStatus: REQUEST_STATUS.ERROR, isLoggedIn: false};
 
         // [MODULE REDUCER] SWITCH CASE
         default: return state;

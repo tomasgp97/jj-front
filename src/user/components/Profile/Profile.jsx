@@ -50,7 +50,7 @@ const Profile = (props) => {
         queryId ?
             getPosts(queryId):
             getPosts(userData.id);
-    }, [])
+    }, [queryId])
 
     useEffect(() => {
         if (previousStatus && previousStatus.getPostsStatus !== getPostsStatus && getPostsStatus && getPostsStatus.success) {
@@ -109,7 +109,7 @@ const UserProfile = (props) => {
             getFollowedUsers(loggedInUserData.id)
             getProfileData().then()
         }
-    }, [])
+    }, [personId])
     const getProfileData = useCallback(async () => {
         try{
             const user = await services.getProfileData(personId);
@@ -118,7 +118,7 @@ const UserProfile = (props) => {
             setVisitProfileData({username: 'Not existing user', email: ''})
             console.error(err);
         }
-    }, []);
+    }, [personId]);
 
     // todo. Obviamente necesita un refactor
     useEffect(() => {
@@ -158,7 +158,16 @@ const UserProfile = (props) => {
     return (
         <div className={'user-profile'}>
             <div className={'profile-column'}>
-                <div className={'profile-img'}>PROFILE:</div>
+                <div className={'profile-img'}>
+                    PROFILE:
+                    <p>
+                        Last name: {visitProfileData? visitProfileData.lastName : loggedInUserData.lastName}
+                    </p>
+                    <p>
+                        Name: {visitProfileData? visitProfileData.firstName : loggedInUserData.firstName}
+                    </p>
+
+                </div>
                 <div className={'additional-info'}>
                     {visitProfileData? visitProfileData.email : loggedInUserData.email}
                 </div>

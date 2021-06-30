@@ -65,7 +65,7 @@ const DashboardCardsComp = ({text, postId, userId, userData, username, likedPost
     const dispatch = useDispatch();
 
     useEffect(()=> {
-        const value = likedPostsState.some(post => post.postId === postId);
+        const value = likedPostsState?.some(post => post.postId === postId);
         setIsLiked(value)
     } , [likedPostsState])
 

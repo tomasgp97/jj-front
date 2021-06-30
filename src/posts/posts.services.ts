@@ -9,5 +9,6 @@ export const services = {
 	unLikePost: (postId: any, likedByUserId: any) => deleteRequest(`/api/likes/`, {postId, likedByUserId}),
 
 	getHomePost: (userId: any) => get(`/api/posts/home/${userId}`),
+	getLikedPosts: (userId: any) => get(`/api/likes/${userId}`),
 	// [MODULE SERVICES] NEW SERVICE
 };

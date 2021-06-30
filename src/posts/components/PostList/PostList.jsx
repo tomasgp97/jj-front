@@ -18,6 +18,9 @@ const PostList = (props) => {
         getHomePostStatus,
         homePosts,
 
+        getLikedPosts,
+        getLikedPostsStatus,
+        likedPosts,
 
         newPost,
         newPostStatus,
@@ -32,14 +35,10 @@ const PostList = (props) => {
 
     const [postList, setPostList] = useState([]);
     const [postMessage, setPostMessage] = useState('');
+    const [likedPostsList, setLikedPostsList] = useState([]);
 
+    const previousStatus = usePrevious({getHomePostStatus, newPostStatus, getLikedPostsStatus});
 
-    const previousStatus = usePrevious({getHomePostStatus, newPostStatus});
-
-
-    useEffect(()=> {
-        setPostList([])
-    }, [])
 
     const handleWriteMassage = (event) => {
         setPostMessage(event.target.value)
@@ -51,6 +50,7 @@ const PostList = (props) => {
 
     useEffect(()=> {
         getHomePost(userData.id);
+        getLikedPosts(userData.id)
     }, [])
 
     useEffect(()=> {
@@ -65,6 +65,12 @@ const PostList = (props) => {
             getHomePost(userData.id)
         }
     }, [newPostStatus]);
+
+    useEffect(()=> {
+        if (previousStatus && previousStatus.getLikedPostsStatus !== getLikedPostsStatus && getLikedPostsStatus && getLikedPostsStatus.success){
+            setLikedPostsList(likedPosts)
+        }
+    }, [getLikedPostsStatus]);
 
     useEffect(()=> {}, [newPostStatus]);
 
@@ -93,6 +99,7 @@ const PostList = (props) => {
             <div className={'body'}>
                 {
                     postList.map((x, index) => <PostCard key={index}
+                                                         likedPosts={likedPostsList}
                                                          username={x.userDto.username}
                                                          userId={x.postDto.userId}
                                                          postKey={x.postDto.postId}
@@ -105,15 +112,23 @@ const PostList = (props) => {
 
 const mapStateToProps = (state) => ({
     getHomePostStatus: state.posts.getHomePostStatus,
-    newPostStatus: state.posts.newPostStatus,
     homePosts: state.posts.homePosts,
+
+    newPostStatus: state.posts.newPostStatus,
     newPost: state.posts.post,
+
+    getLikedPostsStatus: state.posts.getLikedPostsStatus,
+    likedPosts: state.posts.likedPosts,
+
     userData: state.auth.userData
 });
 
 const mapDispatchToProps = (dispatch) => ({
     getHomePost: (userId) => {
         dispatch(postsActions.getHomePost(userId))
+    },
+    getLikedPosts: (userId) => {
+        dispatch(postsActions.getLikedPosts(userId))
     },
     newPost: (text, userId) => {
         dispatch(postsActions.newPost(text, userId))

@@ -4,6 +4,7 @@ import postsActions, {
 	DELETE_POST,
 	FOLLOW_USER,
 	GET_HOME_POST,
+	GET_LIKED_POSTS,
     // [MODULE MIDDLEWARE] IMPORT ACTIONS
 } from './posts.actions';
 import  {services} from './posts.services'
@@ -36,6 +37,11 @@ const postsMiddleware: Middleware = api => (next) => (action) => {
 			services.getHomePost(action.userId)
 				.then((response: any) => api.dispatch(postsActions.getHomePostSuccess(response)))
 				.catch((error: any) => api.dispatch(postsActions.getHomePostError(error)));
+			break;
+		case GET_LIKED_POSTS:
+			services.getLikedPosts(action.userId)
+				.then((response: any) => api.dispatch(postsActions.getLikedPostsSuccess(response)))
+				.catch((error: any) => api.dispatch(postsActions.getLikedPostsError(error)));
 			break;
         // [MODULE MIDDLEWARE] SWITCH CASE
         default: break;

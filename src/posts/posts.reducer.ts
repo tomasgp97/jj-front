@@ -19,6 +19,10 @@ import postsActions, {
 	GET_HOME_POST_SUCCESS,
 	GET_HOME_POST_ERROR,
 
+	GET_LIKED_POSTS,
+	GET_LIKED_POSTS_SUCCESS,
+	GET_LIKED_POSTS_ERROR,
+
     // [MODULE REDUCER] IMPORT ACTIONS
 } from './posts.actions';
 import {ActionTypes} from "../redux/actions";
@@ -50,6 +54,10 @@ const postsReducer = (state = initialState, action: ActionTypes): PostsState => 
 		case GET_HOME_POST: return {...state, getHomePostStatus: REQUEST_STATUS.LOADING};
 		case GET_HOME_POST_SUCCESS: return {...state, getHomePostStatus: REQUEST_STATUS.SUCCESS, homePosts: action.response};
 		case GET_HOME_POST_ERROR: return {...state, getHomePostStatus: REQUEST_STATUS.ERROR};
+
+		case GET_LIKED_POSTS: return {...state, getLikedPostsStatus: REQUEST_STATUS.LOADING};
+		case GET_LIKED_POSTS_SUCCESS: return {...state, getLikedPostsStatus: REQUEST_STATUS.SUCCESS, likedPosts: action.response};
+		case GET_LIKED_POSTS_ERROR: return {...state, getLikedPostsStatus: REQUEST_STATUS.ERROR};
 
         // [MODULE REDUCER] SWITCH CASE
         default: return state;

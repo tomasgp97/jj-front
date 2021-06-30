@@ -6,7 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 import ClearIcon from '@material-ui/icons/Clear';
 import {IconButton} from "@material-ui/core";
-import {Favorite, FavoriteBorder, FavoriteOutlined} from "@material-ui/icons";
+import {Favorite, FavoriteBorder} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
 import postsActions from "../../posts.actions";
 import {services} from "../../posts.services";
@@ -24,6 +24,7 @@ const PostCard = (props) => {
         userId,
         username,
 
+        likedPosts,
 
         deletePost,
         userData
@@ -31,7 +32,7 @@ const PostCard = (props) => {
 
     return (
         dashboardCards ?
-            <DashboardCardsComp userData={userData} username={username} userId={userId} postId={postKey} text={text}/> :
+            <DashboardCardsComp likedPosts={likedPosts} userData={userData} username={username} userId={userId} postId={postKey} text={text}/> :
             <OwnProfileCards text={text} postId={postKey} deletePost={deletePost}/>
     );
 };
@@ -58,14 +59,16 @@ const OwnProfileCards = (
         </div>)
 }
 
-const DashboardCardsComp = ({text, postId, userId, userData, username}) => {
+const DashboardCardsComp = ({text, postId, userId, userData, username, likedPosts}) => {
 
     const history = useHistory();
     const [isLiked, setIsLiked] = useState(false);
 
     useEffect(()=> {
-        // todo seter si esta likeado o no. hacer match de la lista de post likeados con el id de este post
-    } , [])
+        const value = likedPosts.some(post => post.postId === postId);
+        setIsLiked(value)
+    } , [likedPosts])
+
     const handleAvatarClick = () => {
         console.log(userId)
         userData.id === userId ?
@@ -87,7 +90,8 @@ const DashboardCardsComp = ({text, postId, userId, userData, username}) => {
         try{
             const intPostId = parseInt(postId);
             const userDataId = parseInt(userData.id);
-            return await services.likePost(intPostId, userDataId);
+            await services.likePost(intPostId, userDataId);
+            await postsActions.getLikedPosts(userDataId)
         }catch (err) {
             console.error(err);
         }
@@ -97,7 +101,8 @@ const DashboardCardsComp = ({text, postId, userId, userData, username}) => {
         try{
             const intPostId = parseInt(postId);
             const userDataId = parseInt(userData.id);
-            return await services.unLikePost(intPostId, userDataId);
+            await services.unLikePost(intPostId, userDataId);
+            await postsActions.getLikedPosts(userDataId)
         }catch (err) {
             console.error(err);
         }

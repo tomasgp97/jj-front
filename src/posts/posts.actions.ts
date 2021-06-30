@@ -20,6 +20,10 @@ interface GetHomePostRequest {
     type: typeof GET_HOME_POST,
 }
 
+interface GetLikedPostsRequest {
+    type: typeof GET_LIKED_POSTS,
+}
+
 // [MODULE_ACTIONS] NEW INTERFACE
 
 export const GET_POSTS = 'GET_POSTS';
@@ -42,6 +46,10 @@ export const GET_HOME_POST = 'GET_HOME_POST';
 export const GET_HOME_POST_SUCCESS = 'GET_HOME_POST_SUCCESS';
 export const GET_HOME_POST_ERROR = 'GET_HOME_POST_ERROR';
 
+export const GET_LIKED_POSTS = 'GET_LIKED_POSTS';
+export const GET_LIKED_POSTS_SUCCESS = 'GET_LIKED_POSTS_SUCCESS';
+export const GET_LIKED_POSTS_ERROR = 'GET_LIKED_POSTS_ERROR';
+
 // [MODULE_ACTIONS] EXPORT ACTION
 
 export interface PostsResponseAction extends ResponseAction {
@@ -51,6 +59,7 @@ export interface PostsResponseAction extends ResponseAction {
 	| typeof DELETE_POST_SUCCESS
 	| typeof FOLLOW_USER_SUCCESS
 	| typeof GET_HOME_POST_SUCCESS
+	| typeof GET_LIKED_POSTS_SUCCESS
         // [MODULE_ACTIONS] ADD ACTION TO RESPONSE ACTIONS TYPE
 }
 
@@ -61,6 +70,7 @@ export interface PostsResponseErrorAction extends ResponseErrorAction {
 	| typeof DELETE_POST_ERROR
 	| typeof FOLLOW_USER_ERROR
 	| typeof GET_HOME_POST_ERROR
+	| typeof GET_LIKED_POSTS_ERROR
         // [MODULE_ACTIONS] ADD ACTION TO ERROR ACTIONS TYPE
 }
 
@@ -85,6 +95,10 @@ const postsActions = {
 	getHomePostSuccess: (response: any): PostsResponseAction => ({type: GET_HOME_POST_SUCCESS, response}),
 	getHomePostError: (error: any): PostsResponseErrorAction => ({type: GET_HOME_POST_ERROR, error}),
 
+	getLikedPosts: (userId: any) => ({type: GET_LIKED_POSTS, userId}),
+	getLikedPostsSuccess: (response: any): PostsResponseAction => ({type: GET_LIKED_POSTS_SUCCESS, response}),
+	getLikedPostsError: (error: any): PostsResponseErrorAction => ({type: GET_LIKED_POSTS_ERROR, error}),
+
     // [MODULE_ACTIONS] DEFINE NEW ACTIONS
 };
 
@@ -96,6 +110,7 @@ export type PostsActionTypes = (
 	| DeletePostRequest
 	| FollowUserRequest
 	| GetHomePostRequest
+	| GetLikedPostsRequest
     // [MODULE_ACTIONS] EXPORT ACTION TYPE
 )
 

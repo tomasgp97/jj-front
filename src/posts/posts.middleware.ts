@@ -3,6 +3,7 @@ import postsActions, {
 	NEW_POST,
 	DELETE_POST,
 	FOLLOW_USER,
+	GET_HOME_POST,
     // [MODULE MIDDLEWARE] IMPORT ACTIONS
 } from './posts.actions';
 import  {services} from './posts.services'
@@ -30,6 +31,11 @@ const postsMiddleware: Middleware = api => (next) => (action) => {
 			services.followUser(action.userId, action.followingId)
 				.then((response: any) => api.dispatch(postsActions.followUserSuccess(response)))
 				.catch((error: any) => api.dispatch(postsActions.followUserError(error)));
+			break;
+		case GET_HOME_POST:
+			services.getHomePost(action.userId)
+				.then((response: any) => api.dispatch(postsActions.getHomePostSuccess(response)))
+				.catch((error: any) => api.dispatch(postsActions.getHomePostError(error)));
 			break;
         // [MODULE MIDDLEWARE] SWITCH CASE
         default: break;

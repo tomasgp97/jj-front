@@ -6,7 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 import ClearIcon from '@material-ui/icons/Clear';
 import {IconButton} from "@material-ui/core";
-import {Favorite} from "@material-ui/icons";
+import {Favorite, FavoriteBorder, FavoriteOutlined} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
 import postsActions from "../../posts.actions";
 import {services} from "../../posts.services";
@@ -22,6 +22,7 @@ const PostCard = (props) => {
         dashboardCards = true,
         postKey,
         userId,
+        username,
 
 
         deletePost,
@@ -30,7 +31,7 @@ const PostCard = (props) => {
 
     return (
         dashboardCards ?
-            <DashboardCardsComp userData={userData} userId={userId} postId={postKey} text={text}/> :
+            <DashboardCardsComp userData={userData} username={username} userId={userId} postId={postKey} text={text}/> :
             <OwnProfileCards text={text} postId={postKey} deletePost={deletePost}/>
     );
 };
@@ -57,7 +58,7 @@ const OwnProfileCards = (
         </div>)
 }
 
-const DashboardCardsComp = ({text, postId, userId, userData}) => {
+const DashboardCardsComp = ({text, postId, userId, userData, username}) => {
 
     const history = useHistory();
     const [isLiked, setIsLiked] = useState(false);
@@ -66,6 +67,7 @@ const DashboardCardsComp = ({text, postId, userId, userData}) => {
         // todo seter si esta likeado o no. hacer match de la lista de post likeados con el id de este post
     } , [])
     const handleAvatarClick = () => {
+        console.log(userId)
         userData.id === userId ?
             history.push(`/profile`)
             :
@@ -104,12 +106,12 @@ const DashboardCardsComp = ({text, postId, userId, userData}) => {
     return (
         <div className={'post-card'} key={postId}>
             <div className={'avatar-info'}>
-                <Avatar className={'avatar'} onClick={handleAvatarClick}>H</Avatar>
-                <p>{text || ''}</p>
+                <Avatar className={'avatar'} onClick={handleAvatarClick}>{(username && username[0]) ||'P'}</Avatar>
+                <p>{username? `${username}: ` : ''} {text || ''}</p>
             </div>
             <div>
                 <IconButton onClick={handleLikePost} color="primary" aria-label="upload picture" component="span">
-                    <Favorite color={isLiked ? 'secondary' : 'primary'}/>
+                    {isLiked? <Favorite color={'secondary'}/> : <FavoriteBorder/>}
                 </IconButton>
             </div>
         </div>

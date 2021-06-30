@@ -14,9 +14,9 @@ import {Button, TextField} from "@material-ui/core";
  */
 const PostList = (props) => {
     const {
-        getPosts,
-        getPostsStatus,
-        posts,
+        getHomePost,
+        getHomePostStatus,
+        homePosts,
 
 
         newPost,
@@ -34,7 +34,7 @@ const PostList = (props) => {
     const [postMessage, setPostMessage] = useState('');
 
 
-    const previousStatus = usePrevious({getPostsStatus, newPostStatus});
+    const previousStatus = usePrevious({getHomePostStatus, newPostStatus});
 
 
     useEffect(()=> {
@@ -50,19 +50,19 @@ const PostList = (props) => {
     }
 
     useEffect(()=> {
-        getPosts(userData.id);
+        getHomePost(userData.id);
     }, [])
 
     useEffect(()=> {
-        if (previousStatus && previousStatus.getPostsStatus !== getPostsStatus && getPostsStatus && getPostsStatus.success){
-                setPostList(posts)
+        if (previousStatus && previousStatus.getPostsStatus !== getHomePostStatus && getHomePostStatus && getHomePostStatus.success){
+                setPostList(homePosts)
             }
-        }, [getPostsStatus]);
+        }, [getHomePostStatus]);
 
     useEffect(()=> {
         if (previousStatus && previousStatus.newPostStatus !== newPostStatus && newPostStatus && newPostStatus.success){
             setPostMessage('');
-            getPosts(userData.id)
+            getHomePost(userData.id)
         }
     }, [newPostStatus]);
 
@@ -92,7 +92,11 @@ const PostList = (props) => {
 
             <div className={'body'}>
                 {
-                    postList.map((x, index) => <PostCard key={index} userId={x.userId} postKey={x.postId} text={x.text}/>)
+                    postList.map((x, index) => <PostCard key={index}
+                                                         username={x.userDto.username}
+                                                         userId={x.postDto.userId}
+                                                         postKey={x.postDto.postId}
+                                                         text={x.postDto.text}/>)
                 }
             </div>
         </div>
@@ -100,16 +104,16 @@ const PostList = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-    getPostsStatus: state.posts.getPostsStatus,
+    getHomePostStatus: state.posts.getHomePostStatus,
     newPostStatus: state.posts.newPostStatus,
-    posts: state.posts.posts,
+    homePosts: state.posts.homePosts,
     newPost: state.posts.post,
     userData: state.auth.userData
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    getPosts: (id) => {
-        dispatch(postsActions.getPosts(id))
+    getHomePost: (userId) => {
+        dispatch(postsActions.getHomePost(userId))
     },
     newPost: (text, userId) => {
         dispatch(postsActions.newPost(text, userId))

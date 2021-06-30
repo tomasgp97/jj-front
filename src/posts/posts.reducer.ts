@@ -15,6 +15,10 @@ import postsActions, {
 	FOLLOW_USER_SUCCESS,
 	FOLLOW_USER_ERROR,
 
+	GET_HOME_POST,
+	GET_HOME_POST_SUCCESS,
+	GET_HOME_POST_ERROR,
+
     // [MODULE REDUCER] IMPORT ACTIONS
 } from './posts.actions';
 import {ActionTypes} from "../redux/actions";
@@ -42,6 +46,10 @@ const postsReducer = (state = initialState, action: ActionTypes): PostsState => 
 		case FOLLOW_USER: return {...state, followUserStatus: REQUEST_STATUS.LOADING};
 		case FOLLOW_USER_SUCCESS: return {...state, followUserStatus: REQUEST_STATUS.SUCCESS};
 		case FOLLOW_USER_ERROR: return {...state, followUserStatus: REQUEST_STATUS.ERROR};
+
+		case GET_HOME_POST: return {...state, getHomePostStatus: REQUEST_STATUS.LOADING};
+		case GET_HOME_POST_SUCCESS: return {...state, getHomePostStatus: REQUEST_STATUS.SUCCESS, homePosts: action.response};
+		case GET_HOME_POST_ERROR: return {...state, getHomePostStatus: REQUEST_STATUS.ERROR};
 
         // [MODULE REDUCER] SWITCH CASE
         default: return state;

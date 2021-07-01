@@ -24,7 +24,6 @@ const MainContent = (props) => {
             <Switch>
                 <PrivateRoute path={'/profile'} component={Profile}/>
                 <PrivateRoute path={'/Edit-profile'} component={EditProfile}/>
-                <PrivateRoute path={'/chat'} component={MainChat}/>
                 <PrivateRoute path={'/'} component={PostList}/>
             </Switch>
         </div>

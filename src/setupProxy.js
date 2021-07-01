@@ -37,8 +37,5 @@ module.exports = function (app) {
                 target: "http://localhost:8082",
             })
         );
-        app.use(
-            createProxyMiddleware("/ws", { target: "http://localhost:8083", ws: true })
-        );
 
 };

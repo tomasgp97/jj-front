@@ -8,6 +8,7 @@ import {PrivateRoute} from "./auth/PrivateRoute";
 import Home from "./common/components/Home/Home";
 import {createBrowserHistory} from "history";
 import PublicRoute from "./auth/PublicRoute";
+import {MainChat} from "./chats/components/Chats/mainChat";
 
 function App() {
     const historyInstance = createBrowserHistory();
@@ -20,8 +21,10 @@ function App() {
                 <PublicRoute path={'/login'} component={Login}/>
                 <PublicRoute path={'/signUp'} component={SignUp}/>
                 <PrivateRoute path={'/home'} component={Home}/>
-                <PrivateRoute path={'/'} component={Home}/>
-                <PublicRoute path={'/'} component={Login}/>
+              <Route path={'/chat'} component={MainChat}/>
+              <PrivateRoute path={'/'} component={Home}/>
+              <PublicRoute path={'/'} component={Login}/>
+
             </Switch>
             </BrowserRouter>
         </div>

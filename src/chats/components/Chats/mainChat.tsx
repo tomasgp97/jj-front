@@ -11,7 +11,7 @@ export const MainChat = () => {
 	const [username, setUsername] = useState<string | undefined>()
 
 	useEffect(() => {
-		socket.current = new WebSocketServiceImpl('ws:localhost:8080/chat')
+		socket.current = new WebSocketServiceImpl('ws:localhost:8083/chat')
 		socket.current?.addMessageListener<string>('/chat/username', username => setUsername(username))
 		return () => socket.current && socket.current.dispose()
 	}, [])

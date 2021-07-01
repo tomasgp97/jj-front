@@ -11,6 +11,7 @@ import postsMiddleware from '../posts/posts.middleware';
 import authMiddleware from '../auth/auth.middleware';
 import baseMiddleware from '../base/base.middleware';
 import userMiddleware from '../user/user.middleware';
+import chatsMiddleware from '../chats/chats.middleware';
 // [CONFIGURE STORE] IMPORT MIDDLEWARE
 
 const persistConfig = {
@@ -35,6 +36,7 @@ const store = process.env.NODE_ENV === 'production' ? createStore(
 		authMiddleware,
 		baseMiddleware,
 		userMiddleware,
+		chatsMiddleware,
         // [CONFIGURE STORE] ADD MIDDLEWARE PROD
     ))
 ) : createStore(
@@ -49,6 +51,7 @@ const store = process.env.NODE_ENV === 'production' ? createStore(
 		authMiddleware,
 		baseMiddleware,
 		userMiddleware,
+		chatsMiddleware,
         // [CONFIGURE STORE] ADD MIDDLEWARE DEV
     ))
 );

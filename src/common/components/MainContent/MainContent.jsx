@@ -7,6 +7,7 @@ import PostList from "../../../posts/components/PostList/PostList";
 import {Switch} from "react-router-dom";
 import {Route} from "react-router";
 import EditProfile from "../../../user/components/EditProfile/EditProfile";
+import {MainChat} from "../../../chats/components/Chats/mainChat";
 
 /**
  * @description
@@ -23,8 +24,8 @@ const MainContent = (props) => {
             <Switch>
                 <PrivateRoute path={'/profile'} component={Profile}/>
                 <PrivateRoute path={'/Edit-profile'} component={EditProfile}/>
+                <PrivateRoute path={'/chat'} component={MainChat}/>
                 <PrivateRoute path={'/'} component={PostList}/>
-
             </Switch>
         </div>
     );

@@ -6,6 +6,7 @@ import postsReducer from '../posts/posts.reducer';
 import authReducer from '../auth/auth.reducer';
 import baseReducer from '../base/base.reducer';
 import userReducer from '../user/user.reducer';
+import chatsReducer from '../chats/chats.reducer';
 // [ROOT REDUCER] IMPORT REDUCER
 
 
@@ -17,6 +18,7 @@ const createRootReducer = (history : any) => combineReducers({
 	auth: authReducer,
 	base: baseReducer,
 	user: userReducer,
+	chats: chatsReducer,
     // [ROOT REDUCER] ADD REDUCER
 });
 

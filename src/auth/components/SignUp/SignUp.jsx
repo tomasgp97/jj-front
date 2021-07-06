@@ -94,6 +94,9 @@ const SignUp = (props) => {
                 <div className={'form-field'}>
                     <TextField value={confirmPassword} type="password" onChange={handleConfirmPasswordInput} label="repeat password" variant="outlined" />
                 </div>
+                <Button  href={'/login'}>
+                    Already have an account!
+                </Button>
                 <div className={'form-field'}>
                     <Button onClick={handleSendData} disabled={!username || !email || !password || !confirmPassword } variant="contained" color="primary">
                         Create account

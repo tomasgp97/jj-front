@@ -37,3 +37,21 @@ jobs:
           file: Dockerfile.prod
           push: true
           tags: docker.pkg.github.com/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
+
+  azure-cd:
+    needs: build_and_push_to_registry
+    name: Deploy to Azure VM
+    runs-on: ubuntu-latest
+    steps:
+      - name: Connecting with SSH to Azure VM
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${{ secrets.VM_USERNAME }}
+          host: 52.188.49.213
+          key: ${{ secrets.VM_KEY }}
+          script: |
+            cd jj-infra
+            sudo docker container kill $(sudo docker ps -q)
+            sudo docker rm $(sudo docker ps -a -q)
+            sudo docker rmi $(sudo docker images -q)
+            sudo docker-compose up -d --build

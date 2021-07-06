@@ -51,7 +51,6 @@ jobs:
           key: ${{ secrets.VM_KEY }}
           script: |
             cd jj-infra
-            sudo docker container kill $(sudo docker ps -q)
-            sudo docker rm $(sudo docker ps -a -q)
-            sudo docker rmi $(sudo docker images -q)
-            sudo docker-compose up -d --build
+            sudo docker stop jibber-jabber-client
+            sudo docker pull docker.pkg.github.com/matiasferron/jj-front/dev-jj-fe:latest
+            sudo docker-compose up -d client

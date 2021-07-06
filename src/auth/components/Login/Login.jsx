@@ -44,7 +44,7 @@ const Login = (props) => {
 
     return (
         <div className={'login'}>
-            <h2>Login dev 2</h2>
+            <h2>Login prod</h2>
             <div className={'wrapper'}>
                 <TextField value={username} onChange={handleUsernameChange} id="outlined-basic" label="username" variant="outlined" />
                 <TextField onChange={handlePasswordChange} type="password" label="password" variant="outlined" />

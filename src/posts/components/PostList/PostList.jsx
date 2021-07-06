@@ -81,9 +81,6 @@ const PostList = (props) => {
                 variant="outlined"/>
 
                 <div className={'send-button'}>
-                    <Button  href={'/signup'}>
-                        Already have a account!
-                    </Button>
                     <Button disabled={postMessage.length === 0 || postMessage.length >= 140 } onClick={handleCreatePost} variant="contained" color="primary">
                         Post
                     </Button>

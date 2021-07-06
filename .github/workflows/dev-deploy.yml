@@ -39,7 +39,7 @@ jobs:
           tags: docker.pkg.github.com/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
 
   azure-cd:
-    needs: build_and_push_to_registry
+    needs: push_to_registry
     name: Deploy to Azure VM
     runs-on: ubuntu-latest
     steps:

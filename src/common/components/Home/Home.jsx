@@ -69,6 +69,9 @@ const Home = (props) => {
                 <Button href="/profile" color="primary">
                     profile
                 </Button>
+                <Button href="/chat" color="primary">
+                    Chat
+                </Button>
 
                 <div id="combo-box-div">
 

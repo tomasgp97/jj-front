@@ -166,7 +166,6 @@ const ChatBox = ({ updateContact, recipient, arrayMessages, client, sender }) =>
         message: "",
     });
 
-console.log('xd', sender)
     const personName = recipient && recipient.firstName;
 
     useEffect(() => {
@@ -196,7 +195,6 @@ console.log('xd', sender)
                 return [...prevState, message];
             });
 
-            console.log('post to send', messages )
 
 
             setMessage({
@@ -206,7 +204,6 @@ console.log('xd', sender)
         }
     };
     const horarioActual = moment().format(" h:mm a");
-    console.log('messages', messages)
     return (
         <Grid className={classes.contactTitle}>
             <Grid className={classes.infoIndividualchat}>
@@ -219,29 +216,22 @@ console.log('xd', sender)
 
                 {messages.length > 0 &&
                 messages.map((item) => {
-                    console.log(item)
                     return (
                         <Grid className={classes.containerMessage}>
                             <Grid>
                                     <Typography className={classes.hora}>
                                     {" "}
-                                    {horarioActual}{" "}
+                                    {item.senderName}{" "}
                                     </Typography>
                             </Grid>
-                            {
-                                item.senderId === sender.id ?
+
                                      <MessageBox
                                         className={classes.messageBoxStyles}
                                         position={"left"}
                                         type={"text"}
                                         text={item.content}
-                                    /> : <MessageBox
-                                        className={classes.messageBoxStyles}
-                                        position={"right"}
-                                        type={"text"}
-                                        text={item.content}
                                     />
-                            }
+
                         </Grid>
                     );
                 })}

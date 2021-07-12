@@ -73,6 +73,10 @@ function PrincipalPanel() {
             width: "100%",
             backgroundColor: "white",
         },
+        notification: {
+            color: "red",
+            textAlign: "left",
+        },
         chatInputs: {
             width: "100%",
             backgroundColor: "#E9E9E9",
@@ -218,6 +222,7 @@ function PrincipalPanel() {
     const [followed, setFollowed] = useState();
     const [wsClient, setWsClient] = useState();
     const [messagesRecieved, setMessagesRecieved] = useState([])
+    const [unreadMsgsCount, setUnreadMsgsCount] = useState()
 
     const getFollowedFunction = () => {
 
@@ -235,7 +240,7 @@ function PrincipalPanel() {
             getFollowedFunction()
         }
         connect()
-    }, [me]);
+    }, [me, unreadMsgsCount, messagesRecieved]);
 
     const connect = () => {
         const Stomp = require("stompjs");
@@ -244,11 +249,12 @@ function PrincipalPanel() {
         stompClient = Stomp.over(SockJS);
         stompClient.connect({}, onConnected, onError);
         setWsClient(stompClient)
-        console.log('asdasdsa wssss', wsClient)
     };
 
     const onConnected = () => {
-       console.log('am i me yet', me)
+        if(!me || !me.id) {
+            return;
+        }
         stompClient.subscribe(
             "/user/" + me.id + "/queue/messages",
             onMessageReceived
@@ -259,12 +265,13 @@ function PrincipalPanel() {
         console.log(err);
     };
 
-    console.log(currentChat)
 
     const onMessageReceived = (msg) => {
-        setMessagesRecieved([...messagesRecieved, msg.content])
-        console.log("narnia", messagesRecieved)
+        const jsonMsg = JSON.parse(msg.body);
 
+        setMessagesRecieved([...messagesRecieved, jsonMsg.content])
+
+        setUnreadMsgsCount(jsonMsg.unreadCount);
 
     };
 
@@ -275,6 +282,7 @@ function PrincipalPanel() {
         const currentMessages = await chatService.findChatMessages(me.id, id);
 
         setCurrentChat({info: currentPerson, messages: currentMessages});
+        setMessagesRecieved(currentMessages)
 
     };
     const classes = useStyles();
@@ -284,15 +292,20 @@ function PrincipalPanel() {
                 <Grid className={classes.contactos}>
                     <Grid className={classes.logoDiv}>
                         <Typography className={classes.reactApp}> Chat</Typography>
+                        {(unreadMsgsCount > 0) ?  <Typography className={classes.notification}> You have {unreadMsgsCount} unread messages</Typography>
+                            :   <Typography className={classes.notification}/>}
                     </Grid>
                     <Grid className={classes.divBlack}>
                         {followed && followed.length > 0 && followed.map((item) => {
                             return (
-                                <ContactBox
-                                    key={item.id}
-                                    object={item}
-                                    getPerson={getCurrentChat}
-                                />
+                               <div onClick={() => setUnreadMsgsCount(0)}>
+                                   <ContactBox
+                                   key={item.id}
+                                   object={item}
+                                   getPerson={getCurrentChat}
+                               />
+                               </div>
+
                             );
                         })}
                         {/* <Grid className={classes.createNew}>

@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Grid, Typography, makeStyles } from "@material-ui/core";
+import NoMessageView from "./noMessageView";
 
 const useStyles = makeStyles((theme) => ({
     padre: {
@@ -200,10 +201,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 function ContactBox(props) {
     const { object, getPerson } = props;
     const { id, firstname, username } = object;
-
 
     const classes = useStyles();
 

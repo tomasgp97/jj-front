@@ -245,7 +245,7 @@ function PrincipalPanel() {
     const connect = () => {
         const Stomp = require("stompjs");
         var SockJS = require("sockjs-client");
-        SockJS = new SockJS("https://devjjapp.sytes.net/ws");
+        SockJS = new SockJS("https://prodjjapp.sytes.net/ws");
         stompClient = Stomp.over(SockJS);
         stompClient.connect({}, onConnected, onError);
         setWsClient(stompClient)

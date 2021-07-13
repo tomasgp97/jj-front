@@ -37,4 +37,9 @@ module.exports = function (app) {
             target: "http://localhost:8082",
         })
     );
+
+    app.use(
+        "/api/messages",
+        createProxyMiddleware({target: "http://localhost:3001"})
+    )
 };

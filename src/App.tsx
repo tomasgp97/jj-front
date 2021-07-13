@@ -4,6 +4,7 @@ import PostList from "./posts/components/PostList/PostList";
 import Login from "./auth/components/Login/Login";
 import SignUp from "./auth/components/SignUp/SignUp";
 import Profile from "./user/components/Profile/Profile";
+import PrincipalPanel from "./PrincipalPanel/PrincipalPanel";
 import {PrivateRoute} from "./auth/PrivateRoute";
 import Home from "./common/components/Home/Home";
 import {createBrowserHistory} from "history";
@@ -20,6 +21,7 @@ function App() {
                 <PublicRoute path={'/login'} component={Login}/>
                 <PublicRoute path={'/signUp'} component={SignUp}/>
                 <PrivateRoute path={'/home'} component={Home}/>
+                <PrivateRoute path={'/chat'} component={PrincipalPanel}/>
                 <PrivateRoute path={'/'} component={Home}/>
                 <PublicRoute path={'/'} component={Login}/>
             </Switch>

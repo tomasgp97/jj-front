@@ -244,9 +244,11 @@ function PrincipalPanel() {
 
     const connect = () => {
         const Stomp = require("stompjs");
+        console.log('trying this???', Stomp)
         var SockJS = require("sockjs-client");
         SockJS = new SockJS("https://jj-message:8080/ws");
         stompClient = Stomp.over(SockJS);
+        console.log('and this???', stompClient)
         stompClient.connect({}, onConnected, onError);
         setWsClient(stompClient)
     };
